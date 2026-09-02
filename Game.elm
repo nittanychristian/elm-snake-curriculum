@@ -1,11 +1,12 @@
--- EAGLE STRIKE — Week 1: Pure Game Logic
+-- EAGLE STRIKE — Week 2: Pure Logic + Static Board
 --
--- No display yet — just the functions that will power the game.
--- Each week we add a new layer until we have a complete game.
--- Load this in Ellie to see the functions working.
+-- Week 1 functions are still here. This week we add SVG drawing.
+-- For the first time the game actually looks like a game.
 module Game exposing (main)
 
 import Html exposing (Html, div, h2, p, text)
+import Svg exposing (Svg, rect, svg)
+import Svg.Attributes exposing (fill, height, stroke, strokeWidth, viewBox, width, x, y)
 
 
 gridSize : Int
@@ -13,73 +14,88 @@ gridSize =
     20
 
 
--- Is this grid position inside the board?
+cellSize : Int
+cellSize =
+    20
+
+
+-- ── WEEK 1: Pure game logic ───────────────────────────────────────
+
 isInBounds : Int -> Int -> Bool
 isInBounds col row =
     col >= 0 && col < gridSize && row >= 0 && row < gridSize
 
 
--- Points earned per food item eaten
 pointValue : Int -> Int
 pointValue currentScore =
     if currentScore >= 10 then
         2
+
     else
         1
 
 
--- Text to show the player based on game state
 statusMessage : Bool -> String
 statusMessage alive =
     if alive then
         "Playing"
+
     else
         "Game Over!"
 
 
--- Direction as a String for now.
--- Notice the problem: nothing stops us from writing "Diagonal" by mistake.
--- We'll fix this in Week 3 with a proper custom type.
-describeMove : String -> String
-describeMove direction =
-    case direction of
-        "Up" ->
-            "The eagle flies north"
+-- ── WEEK 2: Drawing ──────────────────────────────────────────────
 
-        "Down" ->
-            "The eagle dives south"
-
-        "Left" ->
-            "The eagle banks left"
-
-        "Right" ->
-            "The eagle banks right"
-
-        _ ->
-            "Unknown direction"
+drawCell : String -> Int -> Int -> Svg msg
+drawCell color col row =
+    rect
+        [ x (String.fromInt (col * cellSize))
+        , y (String.fromInt (row * cellSize))
+        , width (String.fromInt cellSize)
+        , height (String.fromInt cellSize)
+        , fill color
+        , stroke "#222"
+        , strokeWidth "0.5"
+        ]
+        []
 
 
-showBool : Bool -> String
-showBool b =
-    if b then
-        "True"
+drawBoardCell : Int -> Int -> Svg msg
+drawBoardCell row col =
+    drawCell "#0a1628" col row
 
-    else
-        "False"
+
+drawBoardRow : Int -> List (Svg msg)
+drawBoardRow row =
+    List.map (drawBoardCell row) (List.range 0 (gridSize - 1))
+
+
+drawBoard : List (Svg msg)
+drawBoard =
+    List.concatMap drawBoardRow (List.range 0 (gridSize - 1))
 
 
 main : Html msg
 main =
     div []
-        [ h2 [] [ text "Eagle Strike — game logic (Week 1)" ]
-        , p [] [ text ("Grid size: " ++ String.fromInt gridSize ++ " x " ++ String.fromInt gridSize) ]
-        , p [] [ text ("isInBounds 5 5 = " ++ showBool (isInBounds 5 5)) ]
-        , p [] [ text ("isInBounds 25 5 = " ++ showBool (isInBounds 25 5)) ]
-        , p [] [ text ("isInBounds -1 10 = " ++ showBool (isInBounds -1 10)) ]
-        , p [] [ text ("pointValue 3 = " ++ String.fromInt (pointValue 3)) ]
-        , p [] [ text ("pointValue 15 = " ++ String.fromInt (pointValue 15)) ]
-        , p [] [ text ("statusMessage True = " ++ statusMessage True) ]
-        , p [] [ text ("statusMessage False = " ++ statusMessage False) ]
-        , p [] [ text ("describeMove \"Up\" = " ++ describeMove "Up") ]
-        , p [] [ text ("describeMove \"Left\" = " ++ describeMove "Left") ]
+        [ h2 [] [ text "Eagle Strike — static board (Week 2)" ]
+        , p [] [ text ("Status: " ++ statusMessage True) ]
+        , p [] [ text ("Points per food: " ++ String.fromInt (pointValue 3)) ]
+        , svg
+            [ width (String.fromInt (gridSize * cellSize))
+            , height (String.fromInt (gridSize * cellSize))
+            , viewBox
+                ("0 0 "
+                    ++ String.fromInt (gridSize * cellSize)
+                    ++ " "
+                    ++ String.fromInt (gridSize * cellSize)
+                )
+            ]
+            (drawBoard
+                ++ [ drawCell "#22c55e" 9 10   -- body
+                   , drawCell "#22c55e" 8 10   -- body
+                   , drawCell "#f0ede0" 10 10  -- head (eagle white)
+                   , drawCell "#dc2626" 5 5    -- food (prey)
+                   ]
+            )
         ]
