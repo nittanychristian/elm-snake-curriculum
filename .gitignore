@@ -1,0 +1,5 @@
+elm-stuff/
+dist/
+result
+.direnv
+.claude/settings.local.json
