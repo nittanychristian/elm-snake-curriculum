@@ -1,25 +1,22 @@
--- EAGLE STRIKE — Week 4: Complete Game
---
--- All four weeks of concepts in one file:
---   Week 1 — pure logic functions (isInBounds, pointValue, respawnFood)
---   Week 2 — SVG drawing (drawCell, drawBoard)
---   Week 3 — Elm Architecture + Direction type + timer (Model, Msg, update, subscriptions)
---   Week 4 — Body as List, collision detection, food, score, game over
+-- Eagle Strike — Week 5 solution with school colors (blue & green) and eagle mascot.
+-- Changes from Week 4:
+--   - School color scheme: navy board, green body, white eagle head, gold beak
+--   - Eagle head SVG: beak points in the direction of travel, eye dot
+--   - Renamed: "Eagle Strike", score says "Prey caught"
+--   - "GO EAGLES!" on game over
+--   - Restart on R key (high score preserved)
+--   - Wrap-around walls instead of game over on wall hit
+--   - Speed increases with score
 module Game exposing (main)
 
 import Browser
 import Browser.Events exposing (onKeyDown)
-import Html exposing (Html, div, p, text)
+import Html exposing (Html, div, h1, p, text)
 import Html.Attributes exposing (style)
 import Json.Decode as Decode
-import Svg exposing (Svg, rect, svg)
+import Svg exposing (Svg, circle, polygon, rect, svg)
 import Svg.Attributes as SA
 import Time
-
-
-gridSize : Int
-gridSize =
-    20
 
 
 cellSize : Int
@@ -27,53 +24,10 @@ cellSize =
     20
 
 
--- ── WEEK 1: Pure game logic ───────────────────────────────────────
+gridSize : Int
+gridSize =
+    20
 
-isInBounds : Int -> Int -> Bool
-isInBounds col row =
-    col >= 0 && col < gridSize && row >= 0 && row < gridSize
-
-
-pointValue : Int -> Int
-pointValue currentScore =
-    if currentScore >= 10 then
-        2
-
-    else
-        1
-
-
--- ── WEEK 2: Drawing ──────────────────────────────────────────────
-
-drawCell : String -> { x : Int, y : Int } -> Svg msg
-drawCell color pos =
-    rect
-        [ SA.x (String.fromInt (pos.x * cellSize))
-        , SA.y (String.fromInt (pos.y * cellSize))
-        , SA.width (String.fromInt cellSize)
-        , SA.height (String.fromInt cellSize)
-        , SA.fill color
-        , SA.rx "3"
-        ]
-        []
-
-
-drawBoardCell : Int -> Int -> Svg msg
-drawBoardCell row col =
-    drawCell "#0a1628" { x = col, y = row }
-
-
-drawBoardRow : Int -> List (Svg msg)
-drawBoardRow row =
-    List.map (drawBoardCell row) (List.range 0 (gridSize - 1))
-
-
-drawBoard : List (Svg msg)
-drawBoard =
-    List.concatMap drawBoardRow (List.range 0 (gridSize - 1))
-
-
--- ── WEEK 3: Direction type + model ──────────────────────────────────
 
 type Direction
     = Up
@@ -82,24 +36,23 @@ type Direction
     | Right
 
 
-type alias Position =
-    { x : Int, y : Int }
-
-
--- ── WEEK 4: Game status type + full model ────────────────────────
-
 type GameStatus
     = Playing
     | GameOver
 
 
+type alias Position =
+    { x : Int, y : Int }
+
+
 type alias Model =
     { head : Position
-    , body : List Position      -- Week 4: body is a List
+    , body : List Position
     , direction : Direction
     , food : Position
     , score : Int
-    , status : GameStatus       -- Week 4: track game over state
+    , highScore : Int
+    , status : GameStatus
     }
 
 
@@ -110,6 +63,7 @@ initialModel =
     , direction = Right
     , food = { x = 5, y = 5 }
     , score = 0
+    , highScore = 0
     , status = Playing
     }
 
@@ -117,28 +71,27 @@ initialModel =
 type Msg
     = Tick Time.Posix
     | KeyPressed Direction
+    | Restart
     | Ignore
 
 
--- ── WEEK 3: Movement ─────────────────────────────────────────────
+-- GAME LOGIC --
 
 nextHead : Direction -> Position -> Position
 nextHead dir pos =
     case dir of
         Up ->
-            { pos | y = pos.y - 1 }
+            { pos | y = modBy gridSize (pos.y - 1) }
 
         Down ->
-            { pos | y = pos.y + 1 }
+            { pos | y = modBy gridSize (pos.y + 1) }
 
         Left ->
-            { pos | x = pos.x - 1 }
+            { pos | x = modBy gridSize (pos.x - 1) }
 
         Right ->
-            { pos | x = pos.x + 1 }
+            { pos | x = modBy gridSize (pos.x + 1) }
 
-
--- ── WEEK 4: Collision + food ─────────────────────────────────────
 
 hitsItself : Position -> List Position -> Bool
 hitsItself head body =
@@ -150,6 +103,16 @@ respawnFood current =
     { x = modBy gridSize (current.x * 7 + 3)
     , y = modBy gridSize (current.y * 13 + 7)
     }
+
+
+isOpposite : Direction -> Direction -> Bool
+isOpposite a b =
+    case ( a, b ) of
+        ( Up, Down ) -> True
+        ( Down, Up ) -> True
+        ( Left, Right ) -> True
+        ( Right, Left ) -> True
+        _ -> False
 
 
 tickGame : Model -> Model
@@ -166,7 +129,6 @@ tickGame model =
                 ateFood =
                     newHead == model.food
 
-                -- Week 4: body grows on eat, shrinks on move
                 newBody =
                     if ateFood then
                         model.head :: model.body
@@ -181,16 +143,15 @@ tickGame model =
                     else
                         model.food
 
-                -- Week 1: pointValue used here for scoring
                 newScore =
                     if ateFood then
-                        model.score + pointValue model.score
+                        model.score + 1
 
                     else
                         model.score
 
                 newStatus =
-                    if not (isInBounds newHead.x newHead.y) || hitsItself newHead model.body then
+                    if hitsItself newHead model.body then
                         GameOver
 
                     else
@@ -201,11 +162,12 @@ tickGame model =
                 , body = newBody
                 , food = newFood
                 , score = newScore
+                , highScore = max model.highScore newScore
                 , status = newStatus
             }
 
 
--- ── WEEK 3: Update, view, subscriptions ──────────────────────────
+-- UPDATE --
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -214,24 +176,138 @@ update msg model =
             ( tickGame model, Cmd.none )
 
         KeyPressed dir ->
-            ( { model | direction = dir }, Cmd.none )
+            if isOpposite model.direction dir then
+                ( model, Cmd.none )
+
+            else
+                ( { model | direction = dir }, Cmd.none )
+
+        Restart ->
+            ( { initialModel | highScore = model.highScore }, Cmd.none )
 
         Ignore ->
             ( model, Cmd.none )
 
 
+-- VIEW --
+
+-- Helper to format an SVG coordinate pair
+pt : Int -> Int -> String
+pt x y =
+    String.fromInt x ++ "," ++ String.fromInt y
+
+
+drawCell : String -> Position -> Svg msg
+drawCell color pos =
+    rect
+        [ SA.x (String.fromInt (pos.x * cellSize))
+        , SA.y (String.fromInt (pos.y * cellSize))
+        , SA.width (String.fromInt cellSize)
+        , SA.height (String.fromInt cellSize)
+        , SA.fill color
+        , SA.rx "3"
+        ]
+        []
+
+
+-- Draw the eagle head: white cell + gold beak pointing in direction of travel + dark eye
+drawEagleHead : Direction -> Position -> List (Svg msg)
+drawEagleHead dir pos =
+    let
+        px =
+            pos.x * cellSize
+
+        py =
+            pos.y * cellSize
+
+        -- Beak: triangle pointing in the direction of travel
+        beakPoints =
+            case dir of
+                Right ->
+                    pt (px + 20) (py + 10) ++ " " ++ pt (px + 14) (py + 6) ++ " " ++ pt (px + 14) (py + 14)
+
+                Left ->
+                    pt px (py + 10) ++ " " ++ pt (px + 6) (py + 6) ++ " " ++ pt (px + 6) (py + 14)
+
+                Up ->
+                    pt (px + 10) py ++ " " ++ pt (px + 6) (py + 6) ++ " " ++ pt (px + 14) (py + 6)
+
+                Down ->
+                    pt (px + 10) (py + 20) ++ " " ++ pt (px + 6) (py + 14) ++ " " ++ pt (px + 14) (py + 14)
+
+        -- Eye position shifts to the "front" of the head
+        ( eyeX, eyeY ) =
+            case dir of
+                Right ->
+                    ( px + 13, py + 7 )
+
+                Left ->
+                    ( px + 7, py + 7 )
+
+                Up ->
+                    ( px + 13, py + 9 )
+
+                Down ->
+                    ( px + 13, py + 11 )
+    in
+    [ -- White eagle head
+      rect
+        [ SA.x (String.fromInt px)
+        , SA.y (String.fromInt py)
+        , SA.width (String.fromInt cellSize)
+        , SA.height (String.fromInt cellSize)
+        , SA.fill "#f0ede0"
+        , SA.rx "4"
+        ]
+        []
+    , -- Gold beak
+      polygon
+        [ SA.points beakPoints
+        , SA.fill "#eab308"
+        ]
+        []
+    , -- Dark eye
+      circle
+        [ SA.cx (String.fromInt eyeX)
+        , SA.cy (String.fromInt eyeY)
+        , SA.r "2"
+        , SA.fill "#0a1628"
+        ]
+        []
+    ]
+
+
+drawBoard : List (Svg msg)
+drawBoard =
+    List.concatMap
+        (\row ->
+            List.map
+                (\col -> drawCell "#0a1628" { x = col, y = row })
+                (List.range 0 (gridSize - 1))
+        )
+        (List.range 0 (gridSize - 1))
+
+
 view : Model -> Html Msg
 view model =
     let
-        gameOverText =
+        statusText =
             case model.status of
                 GameOver ->
                     [ p
-                        [ style "color" "#f87171"
-                        , style "font-size" "24px"
-                        , style "margin" "8px 0 0 0"
+                        [ style "color" "#eab308"
+                        , style "font-size" "22px"
+                        , style "margin" "8px 0 2px 0"
+                        , style "text-align" "center"
                         ]
-                        [ text "GAME OVER" ]
+                        [ text "GO EAGLES!" ]
+                    , p
+                        [ style "color" "#94a3b8"
+                        , style "font-size" "14px"
+                        , style "margin" "0"
+                        , style "text-align" "center"
+                        ]
+                        [ text "press R to fly again" ]
                     ]
 
                 Playing ->
@@ -242,24 +318,42 @@ view model =
         , style "background" "#0a1628"
         , style "padding" "16px"
         , style "display" "inline-block"
+        , style "border" "3px solid #1d4ed8"
+        , style "border-radius" "10px"
         ]
-        ([ p
-            [ style "color" "#16a34a", style "margin" "0 0 8px 0" ]
-            [ text ("Score: " ++ String.fromInt model.score) ]
+        ([ h1
+            [ style "color" "#16a34a"
+            , style "margin" "0 0 8px 0"
+            , style "font-size" "20px"
+            , style "text-align" "center"
+            , style "letter-spacing" "2px"
+            ]
+            [ text "EAGLE STRIKE" ]
+         , div
+            [ style "display" "flex"
+            , style "justify-content" "space-between"
+            , style "margin-bottom" "8px"
+            ]
+            [ p [ style "color" "#16a34a", style "margin" "0" ]
+                [ text ("Prey caught: " ++ String.fromInt model.score) ]
+            , p [ style "color" "#1d4ed8", style "margin" "0" ]
+                [ text ("Best: " ++ String.fromInt model.highScore) ]
+            ]
          , svg
             [ SA.width (String.fromInt (gridSize * cellSize))
             , SA.height (String.fromInt (gridSize * cellSize))
             ]
             (drawBoard
-                ++ List.map (drawCell "#22c55e") model.body
-                ++ [ drawCell "#f0ede0" model.head
-                   , drawCell "#dc2626" model.food
-                   ]
+                ++ List.map (drawCell "#15803d") model.body
+                ++ drawEagleHead model.direction model.head
+                ++ [ drawCell "#dc2626" model.food ]
             )
          ]
-            ++ gameOverText
+            ++ statusText
         )
 
+
+-- SUBSCRIPTIONS --
 
 keyDecoder : Decode.Decoder Msg
 keyDecoder =
@@ -269,26 +363,19 @@ keyDecoder =
 toMsg : String -> Msg
 toMsg key =
     case key of
-        "ArrowUp" ->
-            KeyPressed Up
-
-        "ArrowDown" ->
-            KeyPressed Down
-
-        "ArrowLeft" ->
-            KeyPressed Left
-
-        "ArrowRight" ->
-            KeyPressed Right
-
-        _ ->
-            Ignore
+        "ArrowUp" -> KeyPressed Up
+        "ArrowDown" -> KeyPressed Down
+        "ArrowLeft" -> KeyPressed Left
+        "ArrowRight" -> KeyPressed Right
+        "r" -> Restart
+        "R" -> Restart
+        _ -> Ignore
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
+subscriptions model =
     Sub.batch
-        [ Time.every 200 Tick
+        [ Time.every (toFloat (max 80 (200 - model.score * 10))) Tick
         , onKeyDown keyDecoder
         ]
 
