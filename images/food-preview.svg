@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="320" viewBox="0 0 800 320" role="img" aria-labelledby="preview-title">
+<title id="preview-title">Ten eagle prey icons</title>
+<rect width="800" height="320" rx="16" fill="#0a1628"/>
+<svg x="30" y="12" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="mouse-title">
+  <title id="mouse-title">Mouse</title>
+  <path d="M29 65C0 85 6 38 24 44" fill="none" stroke="#e9a6ad" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="47" cy="58" rx="28" ry="21" fill="#aeb7c7"/>
+  <path d="M54 40Q77 37 93 61Q79 79 58 73Z" fill="#cdd3df"/>
+  <circle cx="57" cy="34" r="16" fill="#cdd3df"/>
+  <circle cx="57" cy="34" r="9" fill="#f1b5bd"/>
+  <ellipse cx="69" cy="54" rx="4" ry="5" fill="#27334a"/>
+  <circle cx="70" cy="52" r="1.4" fill="white"/>
+  <circle cx="91" cy="61" r="4" fill="#e593a5"/>
+  <path d="M81 65L96 72M80 60L97 56" stroke="#f3e8dc" stroke-width="2" stroke-linecap="round"/>
+  <path d="M35 76H47M61 76H72" stroke="#e9a6ad" stroke-width="5" stroke-linecap="round"/>
+</svg>
+<text x="80" y="140" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Mouse</text>
+<svg x="190" y="12" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="vole-title">
+  <title id="vole-title">Vole</title>
+  <path d="M24 66Q8 74 10 60" fill="none" stroke="#d5ab86" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="46" cy="58" rx="32" ry="25" fill="#9b6447"/>
+  <ellipse cx="50" cy="65" rx="25" ry="16" fill="#c59260"/>
+  <path d="M54 40Q80 37 92 62Q82 79 58 77Z" fill="#b67b51"/>
+  <circle cx="62" cy="39" r="9" fill="#9b6447"/>
+  <circle cx="62" cy="39" r="4" fill="#d6a180"/>
+  <circle cx="75" cy="55" r="4" fill="#2c2632"/>
+  <circle cx="76" cy="54" r="1.2" fill="white"/>
+  <ellipse cx="90" cy="63" rx="4" ry="3" fill="#e0aaa0"/>
+  <path d="M34 38L30 45M43 35L39 43M52 36L48 43" stroke="#d4a46e" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 81H44M62 81H74" stroke="#d5ab86" stroke-width="5" stroke-linecap="round"/>
+</svg>
+<text x="240" y="140" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Vole</text>
+<svg x="350" y="12" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="rat-title">
+  <title id="rat-title">Rat</title>
+  <path d="M30 66C3 90 0 52 12 45C25 38 14 20 5 27" fill="none" stroke="#c59a9e" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="49" cy="58" rx="29" ry="22" fill="#665b6c"/>
+  <path d="M58 42L94 64L73 77L51 70Z" fill="#8c7d8d"/>
+  <circle cx="63" cy="39" r="11" fill="#8c7d8d"/>
+  <circle cx="63" cy="39" r="6" fill="#c59a9e"/>
+  <path d="M31 49Q42 39 55 43" fill="none" stroke="#a392a1" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="76" cy="57" r="3.5" fill="#261f2c"/>
+  <circle cx="77" cy="56" r="1" fill="white"/>
+  <circle cx="94" cy="64" r="3.5" fill="#dfacb0"/>
+  <path d="M84 67L98 75M84 63L98 59" stroke="#dfd7dd" stroke-width="2" stroke-linecap="round"/>
+  <path d="M40 79H50M67 79H78" stroke="#c59a9e" stroke-width="5" stroke-linecap="round"/>
+</svg>
+<text x="400" y="140" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Rat</text>
+<svg x="510" y="12" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="rabbit-title">
+  <title id="rabbit-title">Rabbit</title>
+  <ellipse cx="59" cy="28" rx="9" ry="24" transform="rotate(-12 59 28)" fill="#e5d9c6"/>
+  <ellipse cx="77" cy="28" rx="8" ry="23" transform="rotate(12 77 28)" fill="#e5d9c6"/>
+  <path d="M59 14L61 38M78 14L74 38" stroke="#e7aaa5" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="20" cy="66" r="13" fill="#fff5de"/>
+  <ellipse cx="44" cy="66" rx="28" ry="23" fill="#c4ae96"/>
+  <ellipse cx="45" cy="74" rx="18" ry="14" fill="#e5d9c6"/>
+  <path d="M49 49Q66 34 82 47Q95 59 85 73L60 76Z" fill="#e5d9c6"/>
+  <circle cx="76" cy="56" r="4" fill="#3b3440"/>
+  <circle cx="77" cy="55" r="1.2" fill="white"/>
+  <path d="M89 64L83 68L83 62Z" fill="#df959d"/>
+  <path d="M38 86H57M65 82H80" stroke="#fff0d7" stroke-width="7" stroke-linecap="round"/>
+</svg>
+<text x="560" y="140" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Rabbit</text>
+<svg x="670" y="12" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="squirrel-title">
+  <title id="squirrel-title">Squirrel</title>
+  <path d="M41 76C9 76 1 51 8 28C16 5 44 7 46 28C48 42 34 49 25 41C20 35 23 27 29 29C13 43 29 57 47 55Z" fill="#d7803d"/>
+  <path d="M20 23C9 39 16 59 32 62" fill="none" stroke="#f1b967" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="58" cy="65" rx="22" ry="24" fill="#bd6935"/>
+  <ellipse cx="65" cy="67" rx="12" ry="18" fill="#f2d6a0"/>
+  <path d="M58 43L58 22L70 34Q88 32 91 49L80 60L60 57Z" fill="#d7803d"/>
+  <path d="M61 29L64 39L69 35Z" fill="#f0c28b"/>
+  <circle cx="80" cy="43" r="4" fill="#302738"/>
+  <circle cx="81" cy="42" r="1.2" fill="white"/>
+  <circle cx="91" cy="50" r="3" fill="#68413b"/>
+  <path d="M56 86H77M72 62L86 66" stroke="#eaa35d" stroke-width="6" stroke-linecap="round"/>
+</svg>
+<text x="720" y="140" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Squirrel</text>
+<svg x="30" y="172" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="duck-title">
+  <title id="duck-title">Duck</title>
+  <path d="M28 61L8 43L12 66Z" fill="#a58267"/>
+  <ellipse cx="44" cy="64" rx="31" ry="22" fill="#d1c5ac"/>
+  <path d="M24 55Q43 44 61 57Q49 76 27 71Z" fill="#897463"/>
+  <path d="M34 61Q46 55 55 60L46 68L32 68Z" fill="#5e8fbc"/>
+  <path d="M58 57L60 37L75 37L78 64Z" fill="#458c6c"/>
+  <circle cx="70" cy="32" r="17" fill="#328b70"/>
+  <path d="M57 48L77 51" stroke="#fff1ce" stroke-width="5"/>
+  <path d="M80 31L97 35L96 43L80 42Z" fill="#f4bf4e"/>
+  <circle cx="76" cy="28" r="3.5" fill="#1c3140"/>
+  <circle cx="77" cy="27" r="1" fill="white"/>
+  <path d="M37 84L34 91H46M57 84L55 91H67" fill="none" stroke="#e8a743" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<text x="80" y="300" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Duck</text>
+<svg x="190" y="172" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="quail-title">
+  <title id="quail-title">Quail</title>
+  <path d="M62 29Q52 9 67 9Q80 10 71 19L66 17L67 28Z" fill="#3c3642"/>
+  <path d="M26 65L9 47L9 65L23 75Z" fill="#80654f"/>
+  <ellipse cx="47" cy="62" rx="30" ry="25" fill="#9f8768"/>
+  <ellipse cx="61" cy="68" rx="18" ry="17" fill="#e2cb96"/>
+  <path d="M26 49Q42 41 55 54Q45 75 25 70Z" fill="#7d695a"/>
+  <circle cx="68" cy="36" r="16" fill="#a8a9a4"/>
+  <path d="M58 35Q68 45 79 34L75 49L64 51Z" fill="#3c3642"/>
+  <path d="M57 36Q65 48 78 39" fill="none" stroke="#fff0ce" stroke-width="3"/>
+  <path d="M81 34L94 40L81 44Z" fill="#d6ad67"/>
+  <circle cx="74" cy="31" r="3" fill="#242a34"/>
+  <path d="M51 59L55 65M64 59L67 65M57 71L61 77M69 69L72 75" stroke="#a58b58" stroke-width="3" stroke-linecap="round"/>
+  <path d="M38 84L36 92H46M60 84L58 92H68" fill="none" stroke="#c49458" stroke-width="4" stroke-linecap="round"/>
+</svg>
+<text x="240" y="300" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Quail</text>
+<svg x="350" y="172" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="snake-title">
+  <title id="snake-title">Snake</title>
+  <path d="M10 78C34 92 75 87 73 68C71 49 24 70 23 50C22 32 61 49 64 31" fill="none" stroke="#4b9c62" stroke-width="17" stroke-linecap="round"/>
+  <path d="M13 80C37 92 70 85 67 69M30 50Q45 57 58 49" fill="none" stroke="#c8da78" stroke-width="5" stroke-linecap="round"/>
+  <path d="M55 35Q48 23 61 16Q76 7 89 21L86 34Q69 45 55 35Z" fill="#74bd69"/>
+  <path d="M87 26L98 26M95 26L99 21M95 26L99 31" fill="none" stroke="#e07880" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="77" cy="20" rx="4" ry="5" fill="#f2df85"/>
+  <ellipse cx="78" cy="20" rx="1.5" ry="4" fill="#28443a"/>
+  <path d="M39 75L43 80M51 70L55 75M32 45L36 50" stroke="#2c734f" stroke-width="4" stroke-linecap="round"/>
+</svg>
+<text x="400" y="300" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Snake</text>
+<svg x="510" y="172" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="lizard-title">
+  <title id="lizard-title">Lizard</title>
+  <path d="M44 58C15 79 3 58 10 38" fill="none" stroke="#3e9c99" stroke-width="10" stroke-linecap="round"/>
+  <g fill="none" stroke="#61c2ac" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M39 52L25 34L17 33M38 63L28 80L18 83M64 48L70 29L81 24M63 62L76 78L87 77"/>
+  </g>
+  <path d="M17 33L16 26M17 33L10 37M18 83L11 79M18 83L17 91M81 24L80 17M81 24L88 27M87 77L90 70M87 77L94 82" stroke="#a5d69d" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="51" cy="56" rx="25" ry="14" fill="#3e9c99"/>
+  <path d="M34 55L67 51" stroke="#e6d27f" stroke-width="5" stroke-linecap="round"/>
+  <path d="M67 44Q78 32 90 40Q100 48 87 60L70 61Z" fill="#61c2ac"/>
+  <circle cx="86" cy="44" r="4" fill="#e8de8d"/>
+  <circle cx="87" cy="44" r="2" fill="#25434a"/>
+  <path d="M83 55L91 52" stroke="#267b7c" stroke-width="2" stroke-linecap="round"/>
+</svg>
+<text x="560" y="300" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Lizard</text>
+<svg x="670" y="172" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="frog-title">
+  <title id="frog-title">Frog</title>
+  <ellipse cx="25" cy="68" rx="18" ry="16" transform="rotate(-25 25 68)" fill="#58a953"/>
+  <ellipse cx="75" cy="68" rx="18" ry="16" transform="rotate(25 75 68)" fill="#58a953"/>
+  <ellipse cx="50" cy="60" rx="27" ry="25" fill="#82c85e"/>
+  <ellipse cx="50" cy="66" rx="18" ry="17" fill="#d4e58b"/>
+  <path d="M27 65L25 83L13 86M73 65L75 83L87 86" fill="none" stroke="#8acb66" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M13 86L7 79M13 86L7 91M87 86L93 79M87 86L93 91" stroke="#b5db7c" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="50" cy="43" rx="32" ry="20" fill="#82c85e"/>
+  <circle cx="31" cy="28" r="13" fill="#82c85e"/>
+  <circle cx="69" cy="28" r="13" fill="#82c85e"/>
+  <circle cx="31" cy="28" r="8" fill="#f4e7ae"/>
+  <circle cx="69" cy="28" r="8" fill="#f4e7ae"/>
+  <ellipse cx="32" cy="28" rx="4" ry="5" fill="#293e36"/>
+  <ellipse cx="68" cy="28" rx="4" ry="5" fill="#293e36"/>
+  <path d="M29 46Q50 59 71 46" fill="none" stroke="#408a48" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<text x="720" y="300" fill="#fff0ce" text-anchor="middle" font-family="sans-serif" font-size="16">Frog</text>
+</svg>

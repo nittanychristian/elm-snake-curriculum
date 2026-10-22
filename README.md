@@ -17,6 +17,17 @@ A 5-week middle school after-school programming club. Students build a fully pla
 - **[ellie-app.com](https://ellie-app.com)** — online Elm editor, shareable links, no install
 - **Teacher prep each week:** open the week's starter snippet in Ellie, verify it compiles, share the link (write it on the board or post it in your class chat)
 
+## Tutorials and artwork
+
+- [Make your own character with SVG](tutorials/custom-svg.md): draw in a browser, embed images in Ellie, and extend the Week 5 starter with bodies, tails, and curves.
+- [Write tests for your Elm game](tutorials/testing-elm.md): start with visible checks in Ellie, then learn standard Elm unit and fuzz tests.
+- [Add variable food](tutorials/variable-food.md): use ten prey images and randomly choose a different type after each catch.
+- [Add a quiet animated sky](tutorials/animated-background.md): draw two faint clouds and let CSS move them behind the game.
+- [Editable eagle artwork](images/): transparent 100 × 100 SVGs for the head, repeating body, tail, and two curved body palettes.
+- [Prey artwork](images/food/): ten transparent 100 × 100 SVGs, embedded in the game for Ellie.
+
+The Week 5 starter is `week5/Main.elm`. The finished [src/Game.elm](src/Game.elm) includes embedded eagle artwork, the full segment renderer, variable prey, and the quiet animated sky, plus wrapping, restart, and high scores. Its tests live in [tests/GameTest.elm](tests/GameTest.elm).
+
 ## Local Dev Setup (Nix)
 
 If you have [Nix](https://nixos.org) installed, the repo includes a flake that gives you a full Elm toolchain with no other setup:
@@ -30,7 +41,7 @@ With [direnv](https://direnv.net) the shell loads automatically when you `cd` in
 Run a live-reload server for any week or the finished game:
 
 ```sh
-just dev             # Game.elm — the finished Week 5 snake
+just dev             # src/Game.elm — the finished Week 5 snake
 just dev week1       # week1/Main.elm
 just dev week3       # week3/Main.elm
 ```
@@ -40,6 +51,14 @@ Build the finished game to `result/index.html`:
 ```sh
 nix build
 ```
+
+Run the game tests from the development shell:
+
+```sh
+just test
+```
+
+Or run `nix develop -c just test` directly from your usual shell. The suite checks movement, wrapping, growth, restart, segment orientation, all eight corner/color combinations, and non-repeating random food selection.
 
 After changing `elm.json` dependencies, regenerate the lock files:
 

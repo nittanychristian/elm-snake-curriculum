@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title">
+  <title id="title">Snake</title>
+  <path d="M10 78C34 92 75 87 73 68C71 49 24 70 23 50C22 32 61 49 64 31" fill="none" stroke="#4b9c62" stroke-width="17" stroke-linecap="round"/>
+  <path d="M13 80C37 92 70 85 67 69M30 50Q45 57 58 49" fill="none" stroke="#c8da78" stroke-width="5" stroke-linecap="round"/>
+  <path d="M55 35Q48 23 61 16Q76 7 89 21L86 34Q69 45 55 35Z" fill="#74bd69"/>
+  <path d="M87 26L98 26M95 26L99 21M95 26L99 31" fill="none" stroke="#e07880" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="77" cy="20" rx="4" ry="5" fill="#f2df85"/>
+  <ellipse cx="78" cy="20" rx="1.5" ry="4" fill="#28443a"/>
+  <path d="M39 75L43 80M51 70L55 75M32 45L36 50" stroke="#2c734f" stroke-width="4" stroke-linecap="round"/>
+</svg>

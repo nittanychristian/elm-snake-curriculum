@@ -14,7 +14,7 @@
           ../elm.json
           ../elm-packages.nix
           ../registry.dat
-          ../Game.elm
+          ../src/Game.elm
         ];
       };
 
@@ -34,7 +34,7 @@
       buildPhase = ''
         export HOME=$TMPDIR
         rm -rf elm-stuff
-        elm make Game.elm --optimize --output=$out/index.html
+        elm make src/Game.elm --optimize --output=$out/index.html
       '';
 
       installPhase = ''

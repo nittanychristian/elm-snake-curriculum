@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title">
+  <title id="title">Rat</title>
+  <path d="M30 66C3 90 0 52 12 45C25 38 14 20 5 27" fill="none" stroke="#c59a9e" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="49" cy="58" rx="29" ry="22" fill="#665b6c"/>
+  <path d="M58 42L94 64L73 77L51 70Z" fill="#8c7d8d"/>
+  <circle cx="63" cy="39" r="11" fill="#8c7d8d"/>
+  <circle cx="63" cy="39" r="6" fill="#c59a9e"/>
+  <path d="M31 49Q42 39 55 43" fill="none" stroke="#a392a1" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="76" cy="57" r="3.5" fill="#261f2c"/>
+  <circle cx="77" cy="56" r="1" fill="white"/>
+  <circle cx="94" cy="64" r="3.5" fill="#dfacb0"/>
+  <path d="M84 67L98 75M84 63L98 59" stroke="#dfd7dd" stroke-width="2" stroke-linecap="round"/>
+  <path d="M40 79H50M67 79H78" stroke="#c59a9e" stroke-width="5" stroke-linecap="round"/>
+</svg>

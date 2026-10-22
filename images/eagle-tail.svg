@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">Eagle tail</title>
+  <desc id="desc">A fan of ivory tail feathers with warm brown roots. The right edge joins the body from y 28 to 72.</desc>
+  <defs>
+    <linearGradient id="eagle-tail-feathers" x1="10" y1="50" x2="74" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fffdf1"/>
+      <stop offset=".6" stop-color="#eee2c9"/>
+      <stop offset="1" stop-color="#ba9667"/>
+    </linearGradient>
+    <linearGradient id="eagle-tail-body" x1="0" y1="28" x2="0" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4c332b"/>
+      <stop offset=".45" stop-color="#805237"/>
+      <stop offset=".75" stop-color="#b9824e"/>
+      <stop offset="1" stop-color="#e6cba0"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#eagle-tail-feathers)" stroke="#bdab88" stroke-width="1.3" stroke-linejoin="round">
+    <path d="M78 42L21 13Q14 12 13 19L14 28L67 51Z"/>
+    <path d="M73 43L11 26Q4 26 5 34L7 42L65 54Z"/>
+    <path d="M70 45L7 42Q1 44 4 51L7 59L68 56Z"/>
+    <path d="M72 49L9 57Q3 60 8 67L13 74L71 59Z"/>
+    <path d="M77 53L17 71Q11 75 18 82L24 87L78 61Z"/>
+  </g>
+  <g fill="none" stroke="#d4be96" stroke-width="1.5" stroke-linecap="round">
+    <path d="M23 23L65 46M14 34L64 49M12 50L65 51M15 64L66 55M25 78L70 58"/>
+  </g>
+  <path fill="url(#eagle-tail-body)" d="M100 28H89C75 28 69 37 57 41L48 44L56 50L48 55L60 58C72 63 78 72 91 72H100Z"/>
+  <path fill="#432d27" d="M100 28H89C75 28 69 37 57 41L48 44L61 45C75 39 81 34 91 34H100Z"/>
+  <path fill="#efdab2" d="M100 66H91C78 66 70 60 60 58C72 63 78 72 91 72H100Z"/>
+  <path d="M68 44L59 49L70 52M84 46L75 51L86 55" fill="none" stroke="#c59864" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title">
+  <title id="title">Squirrel</title>
+  <path d="M41 76C9 76 1 51 8 28C16 5 44 7 46 28C48 42 34 49 25 41C20 35 23 27 29 29C13 43 29 57 47 55Z" fill="#d7803d"/>
+  <path d="M20 23C9 39 16 59 32 62" fill="none" stroke="#f1b967" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="58" cy="65" rx="22" ry="24" fill="#bd6935"/>
+  <ellipse cx="65" cy="67" rx="12" ry="18" fill="#f2d6a0"/>
+  <path d="M58 43L58 22L70 34Q88 32 91 49L80 60L60 57Z" fill="#d7803d"/>
+  <path d="M61 29L64 39L69 35Z" fill="#f0c28b"/>
+  <circle cx="80" cy="43" r="4" fill="#302738"/>
+  <circle cx="81" cy="42" r="1.2" fill="white"/>
+  <circle cx="91" cy="50" r="3" fill="#68413b"/>
+  <path d="M56 86H77M72 62L86 66" stroke="#eaa35d" stroke-width="6" stroke-linecap="round"/>
+</svg>

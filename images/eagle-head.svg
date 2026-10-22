@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">Eagle head</title>
+  <desc id="desc">A right-facing bald eagle with ivory feathers, a fierce amber eye, and a hooked golden beak. The left edge joins the body from y 28 to 72.</desc>
+  <defs>
+    <linearGradient id="eagle-head-neck" x1="0" y1="28" x2="0" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4c332b"/>
+      <stop offset=".45" stop-color="#805237"/>
+      <stop offset=".75" stop-color="#b9824e"/>
+      <stop offset="1" stop-color="#e6cba0"/>
+    </linearGradient>
+    <linearGradient id="eagle-head-white" x1="28" y1="23" x2="40" y2="78" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fffdf1"/>
+      <stop offset=".58" stop-color="#f5eddb"/>
+      <stop offset="1" stop-color="#c9c6ba"/>
+    </linearGradient>
+    <linearGradient id="eagle-head-beak" x1="69" y1="39" x2="84" y2="66" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe291"/>
+      <stop offset=".5" stop-color="#f5bb46"/>
+      <stop offset="1" stop-color="#c78028"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#eagle-head-neck)" d="M0 28H27V72H0Z"/>
+  <path fill="#432d27" d="M0 28H27V34H0Z"/>
+  <path fill="#efdab2" d="M0 66H27V72H0Z"/>
+  <path fill="url(#eagle-head-white)" d="M9 31L20 23L19 29C36 17 59 21 70 32L77 41L72 57C66 69 53 76 38 76L27 82L29 73L16 77L21 67L9 69L16 57L8 57L16 45L8 46L15 37Z"/>
+  <path fill="#fffdf1" d="M20 32C38 22 56 25 66 33C49 29 36 32 25 39L17 44L21 36L14 38Z"/>
+  <path fill="#dfddcf" d="M22 56C33 61 44 65 60 62C50 70 39 70 29 68L23 73L25 64L17 66Z"/>
+  <path fill="url(#eagle-head-beak)" d="M68 38C78 38 89 42 96 48C101 53 98 64 87 69L89 58L77 55L67 55Z"/>
+  <path fill="#ffe7a1" d="M71 39C80 40 89 44 94 48L78 47L70 46Z"/>
+  <path d="M70 54L88 53L93 56" fill="none" stroke="#a76b26" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="77" cy="46" rx="2.4" ry="1.5" fill="#9c6528"/>
+  <path fill="#513e32" d="M46 40C53 36 61 37 66 41L62 48L52 48Z"/>
+  <ellipse cx="57" cy="42" rx="4.8" ry="4" fill="#e9b84e"/>
+  <ellipse cx="58" cy="42" rx="2.4" ry="3.3" fill="#242b2c"/>
+  <circle cx="59" cy="40.8" r="1" fill="#fffdf1"/>
+  <path d="M43 35L65 40" fill="none" stroke="#fffdf1" stroke-width="5" stroke-linecap="round"/>
+  <path d="M34 46L29 51M37 55L32 59" fill="none" stroke="#d2cdbd" stroke-width="2" stroke-linecap="round"/>
+</svg>

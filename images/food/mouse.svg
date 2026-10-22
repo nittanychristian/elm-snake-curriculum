@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title">
+  <title id="title">Mouse</title>
+  <path d="M29 65C0 85 6 38 24 44" fill="none" stroke="#e9a6ad" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="47" cy="58" rx="28" ry="21" fill="#aeb7c7"/>
+  <path d="M54 40Q77 37 93 61Q79 79 58 73Z" fill="#cdd3df"/>
+  <circle cx="57" cy="34" r="16" fill="#cdd3df"/>
+  <circle cx="57" cy="34" r="9" fill="#f1b5bd"/>
+  <ellipse cx="69" cy="54" rx="4" ry="5" fill="#27334a"/>
+  <circle cx="70" cy="52" r="1.4" fill="white"/>
+  <circle cx="91" cy="61" r="4" fill="#e593a5"/>
+  <path d="M81 65L96 72M80 60L97 56" stroke="#f3e8dc" stroke-width="2" stroke-linecap="round"/>
+  <path d="M35 76H47M61 76H72" stroke="#e9a6ad" stroke-width="5" stroke-linecap="round"/>
+</svg>

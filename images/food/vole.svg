@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title">
+  <title id="title">Vole</title>
+  <path d="M24 66Q8 74 10 60" fill="none" stroke="#d5ab86" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="46" cy="58" rx="32" ry="25" fill="#9b6447"/>
+  <ellipse cx="50" cy="65" rx="25" ry="16" fill="#c59260"/>
+  <path d="M54 40Q80 37 92 62Q82 79 58 77Z" fill="#b67b51"/>
+  <circle cx="62" cy="39" r="9" fill="#9b6447"/>
+  <circle cx="62" cy="39" r="4" fill="#d6a180"/>
+  <circle cx="75" cy="55" r="4" fill="#2c2632"/>
+  <circle cx="76" cy="54" r="1.2" fill="white"/>
+  <ellipse cx="90" cy="63" rx="4" ry="3" fill="#e0aaa0"/>
+  <path d="M34 38L30 45M43 35L39 43M52 36L48 43" stroke="#d4a46e" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 81H44M62 81H74" stroke="#d5ab86" stroke-width="5" stroke-linecap="round"/>
+</svg>
