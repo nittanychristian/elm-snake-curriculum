@@ -27,7 +27,11 @@ async function pull(github, context, number) {
 }
 
 async function select({ github, context }) {
-  if (context.eventName === 'workflow_dispatch') return { mode: 'refresh' };
+  if (context.eventName === 'workflow_dispatch') return { mode: 'master' };
+  if (context.eventName === 'push') {
+    return context.ref === `refs/heads/${context.payload.repository.default_branch}`
+      ? { mode: 'master' } : { mode: 'skip' };
+  }
   if (context.eventName === 'pull_request_target' && context.payload.action === 'closed') {
     const number = prNumber(context.payload.pull_request.number);
     const pr = await pull(github, context, number);
@@ -61,9 +65,15 @@ async function readGame(directory, expectedSha) {
   const metadata = JSON.parse(await fs.readFile(metadataFile, 'utf8'));
   prNumber(metadata.pr);
   if (metadata.sha !== expectedSha) throw new Error('Artifact source commit does not match the build');
-  const html = new TextDecoder('utf-8', { fatal: true }).decode(await fs.readFile(htmlFile));
-  if (!/<html\b/i.test(html)) throw new Error('The artifact is not a complete game HTML page');
+  const html = await readHtml(htmlFile);
   return { pr: metadata.pr, html };
+}
+
+async function readHtml(file) {
+  if ((await fs.stat(file)).size > maxHtmlBytes) throw new Error('Game exceeds its size limit');
+  const html = new TextDecoder('utf-8', { fatal: true }).decode(await fs.readFile(file));
+  if (!/<html\b/i.test(html)) throw new Error('The game is not a complete HTML page');
+  return html;
 }
 
 function previewNumbers(entries) {
@@ -82,7 +92,7 @@ function siteTree(existing, change, pullRequests = new Map()) {
   for (const entry of existing) {
     if (entry.type === 'tree') continue;
     if (entry.type !== 'blob' || entry.mode !== '100644' ||
-        !['index.html', '.nojekyll'].includes(entry.path) && !previewPath.test(entry.path)) {
+        !['index.html', '.nojekyll', 'master/index.html'].includes(entry.path) && !previewPath.test(entry.path)) {
       throw new Error('Unexpected file in the dedicated preview storage branch');
     }
     files.set(entry.path, { path: entry.path, mode: '100644', type: 'blob', sha: entry.sha });
@@ -95,19 +105,23 @@ function siteTree(existing, change, pullRequests = new Map()) {
       files.delete(destination);
     }
   }
+  if (change.mode === 'master') {
+    files.set('master/index.html', { path: 'master/index.html', mode: '100644', type: 'blob', content: change.html });
+  }
   const numbers = previewNumbers([...files.values()]);
   const links = numbers.map(number => {
     const pr = pullRequests.get(number);
     const label = pr ? `PR #${number}: ${pr.title} — @${pr.user?.login ?? 'unknown'}` : `Play PR #${number}`;
     return `<li><a href="previews/pr-${number}/">${escapeHtml(label)}</a></li>`;
   }).join('\n');
-  const html = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Student game previews</title><style>body{font:18px sans-serif;max-width:45rem;margin:3rem auto;padding:1rem;background:#0a1628;color:#fff0ce}a{color:#a8d9ff}li{margin:1rem 0}</style><h1>Student game previews</h1><p>Open a pull request with changes to src/Game.elm to add your game.</p>${numbers.length ? `<ul>${links}</ul>` : '<p>No previews yet. Your game will appear after its PR build succeeds.</p>'}</html>`;
+  const masterLink = files.has('master/index.html') ? '<p><a href="master/">Play the master game</a></p>' : '';
+  const html = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Eagle Strike games</title><style>body{font:18px sans-serif;max-width:45rem;margin:3rem auto;padding:1rem;background:#0a1628;color:#fff0ce}a{color:#a8d9ff}li{margin:1rem 0}</style><h1>Eagle Strike games</h1>${masterLink}<h2>Student game previews</h2><p>Open a pull request with changes to src/Game.elm to add your game.</p>${numbers.length ? `<ul>${links}</ul>` : '<p>No previews yet. Your game will appear after its PR build succeeds.</p>'}</html>`;
   files.set('index.html', { path: 'index.html', mode: '100644', type: 'blob', content: html });
   files.set('.nojekyll', { path: '.nojekyll', mode: '100644', type: 'blob', content: '' });
   return [...files.values()];
 }
 
-async function prepare({ github, context, selection, directory }) {
+async function prepare({ github, context, selection, directory, masterFile }) {
   if (selection.mode === 'skip') return { publish: false };
   let change = { ...selection };
   if (selection.mode === 'build') {
@@ -117,6 +131,8 @@ async function prepare({ github, context, selection, directory }) {
   } else if (selection.mode === 'cleanup') {
     const pr = await pull(github, context, selection.pr);
     if (!currentPull(pr, null, context, 'closed')) return { publish: false };
+  } else if (selection.mode === 'master') {
+    change.html = await readHtml(masterFile);
   } else if (selection.mode !== 'refresh') {
     throw new Error('Unexpected preview operation');
   }

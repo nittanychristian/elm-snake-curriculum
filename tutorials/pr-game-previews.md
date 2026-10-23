@@ -30,8 +30,8 @@ The two workflows and their helper scripts must be committed to the class reposi
 1. Open https://github.com/nittanychristian/elm-snake-curriculum/settings/actions and enable GitHub Actions. Allow the pinned actions used by this repository. The default workflow token can stay read-only; the trusted publisher requests its own permissions.
 2. Open https://github.com/nittanychristian/elm-snake-curriculum/settings/pages. Under **Build and deployment**, set **Source** to **GitHub Actions**.
 3. Check https://github.com/nittanychristian/elm-snake-curriculum/settings/environments. If `github-pages` has deployment branch restrictions, allow `master`. All deployments run trusted code from that branch, including deployments of fork previews.
-4. Open https://github.com/nittanychristian/elm-snake-curriculum/actions/workflows/preview-pages.yml and use **Run workflow** on `master`. This creates the preview collection and deploys its landing page.
-5. Visit https://nittanychristian.github.io/elm-snake-curriculum/ to check that the landing page is available.
+4. Open https://github.com/nittanychristian/elm-snake-curriculum/actions/workflows/preview-pages.yml and use **Run workflow** on `master`. This tests and builds the master game, creates the preview collection, and deploys its landing page.
+5. Visit https://nittanychristian.github.io/elm-snake-curriculum/ and click **Play the master game**. This runs the current `src/Game.elm` from `master`, at https://nittanychristian.github.io/elm-snake-curriculum/master/.
 6. Have a student fork the updated repository and open a PR with a small `src/Game.elm` change. If GitHub asks, review the changes and approve the run in the PR's **Checks** or repository **Actions** tab.
 7. Confirm **PR game build** succeeds, then **Publish game previews** succeeds and adds the play link to the PR. Open the game. Add another commit to check updating, and close the PR to check cleanup.
 
@@ -43,11 +43,13 @@ You do not need a personal access token, hosting account, student webserver, or 
 
 `preview-pages.yml` runs separately with publishing permissions. It loads its scripts from `master`, validates the successful run and the PR's current commit, and treats the downloaded game as static data. It never executes student code. It stores the collection on the dedicated `game-previews` branch and deploys the entire collection with the official Pages actions. Please leave that branch to the workflow.
 
+The landing page also links to the **master game**, separate from the student previews. A push to `master` or a manual **Run workflow** tests and rebuilds `src/Game.elm` from the trusted default branch. PR updates and cleanup preserve this game. If the master tests or build fail, the last successfully deployed game remains available.
+
 Each PR gets its own directory. Publications queue one at a time, preserving the other games. Build artifacts expire after seven days; already published games remain until their PR closes. Closing a PR removes that game's page from the live site; the storage branch still has Git history.
 
-The landing page labels each game with its PR number, title, and author, for example **PR #12: My eagle game — @student**. Give PRs descriptive titles so classmates can find each other's games. Labels refresh from GitHub whenever the site is published. After updating the publisher or renaming a PR, use **Run workflow** on **Publish game previews** to refresh existing labels without rebuilding the games.
+The landing page labels each student game with its PR number, title, and author, for example **PR #12: My eagle game — @student**. Give PRs descriptive titles so classmates can find each other's games. Labels refresh from GitHub whenever the site is published. After updating the publisher or renaming a PR, use **Run workflow** on **Publish game previews** to refresh existing labels and rebuild the master game. Existing PR games do not need rebuilding.
 
-If publishing fails after a successful build, inspect **Publish game previews** in Actions and rerun its failed jobs once the problem is fixed. **Run workflow** redeploys the stored collection; it does not import an unpublished build. For an unpublished game with an expired artifact, push a new commit to its PR.
+If publishing fails after a successful build, inspect **Publish game previews** in Actions and rerun its failed jobs once the problem is fixed. **Run workflow** rebuilds master and redeploys the stored PR collection; it does not import an unpublished PR build. For an unpublished game with an expired artifact, push a new commit to its PR.
 
 ## Teacher: check changes locally
 

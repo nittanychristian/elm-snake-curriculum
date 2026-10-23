@@ -15,6 +15,7 @@ const validPull = { number: 7, title: 'My eagle game', user: { login: 'student' 
   state: 'open', base: { repo: repository, ref: 'master' }, head: { sha } };
 const artifact = { id: 23, name: 'game-preview', expired: false, size_in_bytes: 100 };
 const storedGame = number => ({ path: `previews/pr-${number}/index.html`, type: 'blob', mode: '100644', sha: 'b'.repeat(40) });
+const storedMaster = { path: 'master/index.html', type: 'blob', mode: '100644', sha: 'c'.repeat(40) };
 
 function mock({ run = validRun, pr = validPull, artifacts = [artifact], existing = [], comments = [], newBranch = false, truncated = false } = {}) {
   const calls = [];
@@ -74,6 +75,15 @@ test('selection resolves an artifact through the trusted workflow run API', asyn
   assert.equal(calls[0].args.run_id, 17);
 });
 
+test('only default-branch pushes and manual runs select a master build', async () => {
+  const { github } = mock();
+  assert.deepEqual(await previews.select({ github, context: { ...context, eventName: 'push', ref: 'refs/heads/master' } }), { mode: 'master' });
+  assert.deepEqual(await previews.select({ github, context: { ...context, eventName: 'push', ref: 'refs/heads/student-game' } }), { mode: 'skip' });
+  assert.deepEqual(await previews.select({ github, context: { ...context, eventName: 'workflow_dispatch' } }), { mode: 'master' });
+  assert.deepEqual(await previews.select({ github, context: { ...context, eventName: 'push', ref: 'refs/heads/main',
+    payload: { repository: { ...repository, default_branch: 'main' } } } }), { mode: 'master' });
+});
+
 test('failed builds are ignored and ambiguous or expired artifacts are rejected', async () => {
   assert.deepEqual(await previews.select({ github: mock({ run: { ...validRun, conclusion: 'failure' } }).github, context }), { mode: 'skip' });
   for (const artifacts of [[], [artifact, artifact], [{ ...artifact, expired: true }], [{ ...artifact, size_in_bytes: 11 * 1024 * 1024 }]]) {
@@ -123,6 +133,54 @@ test('cleanup removes only the selected PR and removes its landing-page link', (
   assert.ok(tree.find(file => file.path === 'previews/pr-1/index.html'));
   assert.ok(!tree.find(file => file.path === 'previews/pr-7/index.html'));
   assert.doesNotMatch(tree.find(file => file.path === 'index.html').content, /pr-7/);
+});
+
+test('publishing master adds a playable landing-page link and preserves student games', () => {
+  const html = '<html>master game</html>';
+  const tree = previews.siteTree([storedGame(7)], { mode: 'master', html });
+  assert.equal(tree.find(file => file.path === 'master/index.html').content, html);
+  assert.equal(tree.find(file => file.path === 'previews/pr-7/index.html').sha, storedGame(7).sha);
+  const landing = tree.find(file => file.path === 'index.html').content;
+  assert.ok(landing.includes('<a href="master/">Play the master game</a>'));
+  assert.ok(landing.indexOf('Play the master game') < landing.indexOf('Play PR #7'));
+});
+
+test('PR publishing, cleanup, and refresh keep the master game and its link intact', () => {
+  for (const change of [{ mode: 'build', pr: 7, html: '<html>student game</html>' }, { mode: 'cleanup', pr: 7 }, { mode: 'refresh' }]) {
+    const tree = previews.siteTree([storedMaster, storedGame(7)], change);
+    assert.equal(tree.find(file => file.path === 'master/index.html').sha, storedMaster.sha);
+    assert.ok(tree.find(file => file.path === 'index.html').content.includes('href="master/"'));
+  }
+});
+
+test('a site with no master game does not show a broken master link', () => {
+  const tree = previews.siteTree([storedGame(7)], { mode: 'refresh' });
+  assert.ok(!tree.find(file => file.path === 'index.html').content.includes('href="master/"'));
+});
+
+test('a trusted master build updates only the master game and leaves PR previews available', async t => {
+  const directory = await gameDirectory(t);
+  const html = '<!doctype html><html>new master game</html>';
+  await fs.writeFile(path.join(directory, 'index.html'), html);
+  const { github, calls } = mock({ existing: [storedMaster, storedGame(7)] });
+  const result = await previews.prepare({ github, context, selection: { mode: 'master' }, masterFile: path.join(directory, 'index.html') });
+  assert.equal(result.publish, true);
+  assert.equal(result.mode, 'master');
+  assert.equal(result.pr, undefined);
+  const tree = calls.find(call => call.method === 'createTree').args.tree;
+  assert.equal(tree.find(file => file.path === 'master/index.html').content, html);
+  assert.equal(tree.find(file => file.path === 'previews/pr-7/index.html').sha, storedGame(7).sha);
+});
+
+test('missing, malformed, invalid UTF-8, and oversized master games cannot change the site', async t => {
+  const directory = await gameDirectory(t);
+  const file = path.join(directory, 'master.html');
+  for (const contents of [null, 'not an HTML game', Buffer.from([0xff]), '<html>' + 'x'.repeat(6 * 1024 * 1024)]) {
+    if (contents !== null) await fs.writeFile(file, contents);
+    const { github, calls } = mock({ existing: [storedMaster] });
+    await assert.rejects(previews.prepare({ github, context, selection: { mode: 'master' }, masterFile: file }));
+    assert.ok(!calls.some(call => call.method === 'createTree'));
+  }
 });
 
 test('landing-page game titles include the PR description and author as escaped text', () => {

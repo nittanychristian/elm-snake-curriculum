@@ -7,6 +7,7 @@
 - [x] P005 Run workflow lint, helper tests, Elm tests, and Nix build.
 - [ ] P006 Configure available repository settings and prepare the first fork-PR test; distinguish local validation from actual deployment evidence.
 - [x] P007 Show current PR title and author in landing-page game labels, document refreshing existing labels, and verify metadata handling and HTML escaping with publisher tests. All 22 publisher tests pass; diff whitespace check passes.
+- [x] P008 Build and publish a playable master game on default-branch pushes/manual runs, link it from the landing page, preserve it during PR updates/cleanup, and update tests and documentation. All 28 publisher tests and 44 Elm tests pass; Nix build and workflow lint pass (with the existing queue-key compatibility filter). Deployment awaits pushing these changes.
 
 ## Validation
 

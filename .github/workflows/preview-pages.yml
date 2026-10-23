@@ -1,6 +1,8 @@
 name: Publish game previews
 
 on:
+  push:
+    branches: [master]
   workflow_run:
     workflows: [PR game build]
     types: [completed]
@@ -24,7 +26,7 @@ jobs:
       (github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.event == 'pull_request')
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     permissions:
       contents: write
       actions: read
@@ -49,6 +51,15 @@ jobs:
             const result = await require('./.github/scripts/preview.cjs').select({ github, context });
             for (const [key, value] of Object.entries(result)) core.setOutput(key, value);
             return result;
+      - name: Install Nix for the master game
+        if: steps.select.outputs.mode == 'master'
+        uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # 31.11.3
+      - name: Test and build the master game
+        if: steps.select.outputs.mode == 'master'
+        run: |
+          nix develop -c just test
+          nix develop -c just test-previews
+          nix build
       - name: Download only this build's artifact
         if: steps.select.outputs.mode == 'build'
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
@@ -66,7 +77,8 @@ jobs:
         with:
           script: |
             const result = await require('./.github/scripts/preview.cjs').prepare({
-              github, context, selection: JSON.parse(process.env.SELECTION), directory: 'incoming-game'
+              github, context, selection: JSON.parse(process.env.SELECTION),
+              directory: 'incoming-game', masterFile: 'result/index.html'
             });
             for (const [key, value] of Object.entries(result)) core.setOutput(key, value);
             return result;

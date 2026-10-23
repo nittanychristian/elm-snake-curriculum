@@ -14,6 +14,7 @@ Students submit changes to src/Game.elm in a fork pull request and receive a pla
 - Document Pages/Actions setup, first-time contributor approval, and a simple fork/edit/PR/play walkthrough.
 - Include committed tests of publisher selection, stale-run checks, artifact validation, URL handling, and preserving/cleaning multiple previews.
 - Label each game on the landing page with its PR number, descriptive PR title, and author login. Fetch current metadata from GitHub on each publication or manual refresh, including for existing previews. Escape titles and author names as HTML text.
+- Include a prominent playable master game at master/ built from the default branch's src/Game.elm. Rebuild it on master pushes and manual publication, test before deployment, and preserve it during PR updates/cleanup. PR artifacts must never replace the master game. Keep the last successful game if a new build fails.
 
 ## Acceptance scenarios
 

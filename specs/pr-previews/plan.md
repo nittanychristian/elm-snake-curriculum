@@ -13,3 +13,7 @@ Use the current checkout and unnumbered spec naming established in this reposito
 ## Landing-page labels
 
 On master, extend the existing publisher without changing stored preview paths or artifacts. Resolve titles and author logins through the existing pulls.get API for each retained preview, plus a newly built preview. Pass the metadata to the pure landing-page renderer and escape all inserted text. Refresh labels on every publication and workflow_dispatch, so existing games gain labels without rebuilding. Test rendering special characters and fetching distinct metadata for multiple existing PRs. Retain the final head check after metadata fetching.
+
+## Playable master game
+
+Extend the existing serialized publisher with a master operation for pushes to the default branch and manual runs. Its checkout already loads the trusted default branch. Only for this operation, install Nix, run game/publisher tests and build, then read result/index.html as the master game. Allow master/index.html in the dedicated storage tree, preserve it during PR operations, and link it above the student games. Manual publication now rebuilds master while refreshing existing labels, without rebuilding PR games. Test operation selection, file validation, preservation across updates/cleanup, and upgrading a site that previously contained only PR games. No new external service or dependency is needed.
