@@ -1,0 +1,52 @@
+name: PR game build
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-game-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out the student's exact commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Install Nix
+        uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # 31.11.3
+      - name: Run the game tests
+        run: nix develop -c just test
+      - name: Check the preview publisher
+        run: nix develop -c just test-previews
+      - name: Build the game
+        run: |
+          nix build
+          mkdir game-artifact
+          cp result/index.html game-artifact/index.html
+      - name: Record the PR and source commit
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const event = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+          fs.writeFileSync('game-artifact/preview.json', JSON.stringify({
+            pr: event.pull_request.number,
+            sha: event.pull_request.head.sha
+          }));
+          JS
+      - name: Upload the playable game
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: game-preview
+          path: game-artifact/
+          if-no-files-found: error
+          retention-days: 7

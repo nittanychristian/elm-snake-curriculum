@@ -16,3 +16,7 @@ dev dir="":
 # Run the Elm game tests. Enter nix develop first, or use nix develop -c just test.
 test:
     elm-test
+
+# Check the GitHub Pages preview publisher without making network requests.
+test-previews:
+    node --test .github/scripts/preview.test.cjs

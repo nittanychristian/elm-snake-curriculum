@@ -23,6 +23,7 @@ A 5-week middle school after-school programming club. Students build a fully pla
 - [Write tests for your Elm game](tutorials/testing-elm.md): start with visible checks in Ellie, then learn standard Elm unit and fuzz tests.
 - [Add variable food](tutorials/variable-food.md): use ten prey images and randomly choose a different type after each catch.
 - [Add a quiet animated sky](tutorials/animated-background.md): draw two faint clouds and let CSS move them behind the game.
+- [Share your game with a pull request](tutorials/pr-game-previews.md): submit a game from a fork and get a playable GitHub Pages link, with setup steps for teachers.
 - [Editable eagle artwork](images/): transparent 100 × 100 SVGs for the head, repeating body, tail, and two curved body palettes.
 - [Prey artwork](images/food/): ten transparent 100 × 100 SVGs, embedded in the game for Ellie.
 
@@ -59,6 +60,8 @@ just test
 ```
 
 Or run `nix develop -c just test` directly from your usual shell. The suite checks movement, wrapping, growth, restart, segment orientation, all eight corner/color combinations, and non-repeating random food selection.
+
+Run the PR preview publisher's tests with `nix develop -c just test-previews`.
 
 After changing `elm.json` dependencies, regenerate the lock files:
 
