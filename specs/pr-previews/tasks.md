@@ -6,6 +6,7 @@
 - [x] P004 Add teacher setup and student PR tutorial, with README links.
 - [x] P005 Run workflow lint, helper tests, Elm tests, and Nix build.
 - [ ] P006 Configure available repository settings and prepare the first fork-PR test; distinguish local validation from actual deployment evidence.
+- [x] P007 Show current PR title and author in landing-page game labels, document refreshing existing labels, and verify metadata handling and HTML escaping with publisher tests. All 22 publisher tests pass; diff whitespace check passes.
 
 ## Validation
 

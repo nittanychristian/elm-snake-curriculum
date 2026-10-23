@@ -9,3 +9,7 @@ Use the current checkout and unnumbered spec naming established in this reposito
 5. Keep credentials out of checkouts where not needed. Keep trusted code separate from artifact/storage directories; never execute downloaded games or stored preview files. Disable Nix cache writes from untrusted PR builds.
 6. Document setup and the student PR walkthrough. Validate workflow YAML with actionlint, run helper and Elm tests, and build the game through Nix.
 7. Inspect repository admin access and existing Pages settings. Configure Actions-based Pages after implementation is reviewable when access permits. Workflows must be on the default branch before workflow_run and closure handling can operate. Report any remaining deployment step precisely; a real fork PR supplies final end-to-end evidence.
+
+## Landing-page labels
+
+On master, extend the existing publisher without changing stored preview paths or artifacts. Resolve titles and author logins through the existing pulls.get API for each retained preview, plus a newly built preview. Pass the metadata to the pure landing-page renderer and escape all inserted text. Refresh labels on every publication and workflow_dispatch, so existing games gain labels without rebuilding. Test rendering special characters and fetching distinct metadata for multiple existing PRs. Retain the final head check after metadata fetching.

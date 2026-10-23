@@ -66,7 +66,18 @@ async function readGame(directory, expectedSha) {
   return { pr: metadata.pr, html };
 }
 
-function siteTree(existing, change) {
+function previewNumbers(entries) {
+  return entries.filter(entry => previewPath.test(entry.path))
+    .map(entry => Number(entry.path.match(previewPath)[1])).sort((a, b) => a - b);
+}
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+}
+
+function siteTree(existing, change, pullRequests = new Map()) {
   const files = new Map();
   for (const entry of existing) {
     if (entry.type === 'tree') continue;
@@ -84,9 +95,12 @@ function siteTree(existing, change) {
       files.delete(destination);
     }
   }
-  const numbers = [...files.keys()].filter(file => previewPath.test(file))
-    .map(file => Number(file.match(previewPath)[1])).sort((a, b) => a - b);
-  const links = numbers.map(number => `<li><a href="previews/pr-${number}/">Play PR #${number}</a></li>`).join('\n');
+  const numbers = previewNumbers([...files.values()]);
+  const links = numbers.map(number => {
+    const pr = pullRequests.get(number);
+    const label = pr ? `PR #${number}: ${pr.title} — @${pr.user?.login ?? 'unknown'}` : `Play PR #${number}`;
+    return `<li><a href="previews/pr-${number}/">${escapeHtml(label)}</a></li>`;
+  }).join('\n');
   const html = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Student game previews</title><style>body{font:18px sans-serif;max-width:45rem;margin:3rem auto;padding:1rem;background:#0a1628;color:#fff0ce}a{color:#a8d9ff}li{margin:1rem 0}</style><h1>Student game previews</h1><p>Open a pull request with changes to src/Game.elm to add your game.</p>${numbers.length ? `<ul>${links}</ul>` : '<p>No previews yet. Your game will appear after its PR build succeeds.</p>'}</html>`;
   files.set('index.html', { path: 'index.html', mode: '100644', type: 'blob', content: html });
   files.set('.nojekyll', { path: '.nojekyll', mode: '100644', type: 'blob', content: '' });
@@ -120,11 +134,16 @@ async function prepare({ github, context, selection, directory }) {
     if (tree.truncated) throw new Error('Preview tree is truncated; refusing to lose existing previews');
     existing = tree.tree;
   }
-  // Recheck after reading storage, immediately before preparing a new publication.
+  const numbers = new Set(previewNumbers(existing));
+  if (change.mode === 'build') numbers.add(change.pr);
+  if (change.mode === 'cleanup') numbers.delete(change.pr);
+  const pullRequests = new Map(await Promise.all([...numbers].map(async number =>
+    [number, await pull(github, context, number)])));
+  // Recheck after reading storage and labels, immediately before preparing a new publication.
   if (change.mode === 'build' && !currentPull(await pull(github, context, change.pr), change.sha, context)) {
     return { publish: false };
   }
-  const tree = (await github.rest.git.createTree({ ...context.repo, tree: siteTree(existing, change) })).data;
+  const tree = (await github.rest.git.createTree({ ...context.repo, tree: siteTree(existing, change, pullRequests) })).data;
   const commit = (await github.rest.git.createCommit({
     ...context.repo, message: `Update student previews (${change.mode}${change.pr ? ` PR #${change.pr}` : ''})`,
     tree: tree.sha, parents: previous ? [previous] : []

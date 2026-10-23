@@ -13,6 +13,7 @@ Students submit changes to src/Game.elm in a fork pull request and receive a pla
 - Remove closed PR previews and update their comments without executing their code.
 - Document Pages/Actions setup, first-time contributor approval, and a simple fork/edit/PR/play walkthrough.
 - Include committed tests of publisher selection, stale-run checks, artifact validation, URL handling, and preserving/cleaning multiple previews.
+- Label each game on the landing page with its PR number, descriptive PR title, and author login. Fetch current metadata from GitHub on each publication or manual refresh, including for existing previews. Escape titles and author names as HTML text.
 
 ## Acceptance scenarios
 

@@ -11,7 +11,8 @@ const context = { eventName: 'workflow_run', repo: { owner: 'school', repo: 'gam
   payload: { repository, workflow_run: { id: 17 } } };
 const validRun = { repository, event: 'pull_request', status: 'completed', conclusion: 'success',
   path: '.github/workflows/pr-game.yml', head_sha: sha };
-const validPull = { number: 7, state: 'open', base: { repo: repository, ref: 'master' }, head: { sha } };
+const validPull = { number: 7, title: 'My eagle game', user: { login: 'student' },
+  state: 'open', base: { repo: repository, ref: 'master' }, head: { sha } };
 const artifact = { id: 23, name: 'game-preview', expired: false, size_in_bytes: 100 };
 const storedGame = number => ({ path: `previews/pr-${number}/index.html`, type: 'blob', mode: '100644', sha: 'b'.repeat(40) });
 
@@ -122,6 +123,40 @@ test('cleanup removes only the selected PR and removes its landing-page link', (
   assert.ok(tree.find(file => file.path === 'previews/pr-1/index.html'));
   assert.ok(!tree.find(file => file.path === 'previews/pr-7/index.html'));
   assert.doesNotMatch(tree.find(file => file.path === 'index.html').content, /pr-7/);
+});
+
+test('landing-page game titles include the PR description and author as escaped text', () => {
+  const title = 'Sam\'s "Eagle" & <img src=x onerror=alert(1)>';
+  const metadata = new Map([[7, { title, user: { login: '<student>' } }]]);
+  const tree = previews.siteTree([storedGame(7)], { mode: 'refresh' }, metadata);
+  const html = tree.find(file => file.path === 'index.html').content;
+  assert.ok(html.includes('PR #7: Sam&#39;s &quot;Eagle&quot; &amp; &lt;img src=x onerror=alert(1)&gt; — @&lt;student&gt;'));
+  assert.ok(!html.includes('<img'));
+  assert.ok(html.includes('href="previews/pr-7/"'));
+});
+
+test('manual refresh retrieves current titles and authors for every stored game without rebuilding it', async () => {
+  const { github, calls } = mock({ existing: [storedGame(1), storedGame(7)] });
+  const lookedUp = [];
+  github.rest.pulls.get = async ({ pull_number }) => {
+    lookedUp.push(pull_number);
+    return { data: { ...validPull, number: pull_number, title: `Updated game ${pull_number}`, user: { login: `student${pull_number}` } } };
+  };
+  await previews.prepare({ github, context, selection: { mode: 'refresh' } });
+  assert.deepEqual(lookedUp, [1, 7]);
+  const tree = calls.find(call => call.method === 'createTree').args.tree;
+  const html = tree.find(file => file.path === 'index.html').content;
+  for (const number of [1, 7]) {
+    assert.ok(html.includes(`PR #${number}: Updated game ${number} — @student${number}`));
+    assert.equal(tree.find(file => file.path === `previews/pr-${number}/index.html`).sha, storedGame(number).sha);
+  }
+});
+
+test('a new game receives its current GitHub title and author in the landing page', async t => {
+  const { github, calls } = mock();
+  await previews.prepare({ github, context, selection: { mode: 'build', sha }, directory: await gameDirectory(t) });
+  const html = calls.find(call => call.method === 'createTree').args.tree.find(file => file.path === 'index.html').content;
+  assert.ok(html.includes('PR #7: My eagle game — @student'));
 });
 
 test('unexpected storage files and executable/symlink modes cannot enter the deployed site', () => {

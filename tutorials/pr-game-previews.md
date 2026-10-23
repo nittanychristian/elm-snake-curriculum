@@ -45,6 +45,8 @@ You do not need a personal access token, hosting account, student webserver, or 
 
 Each PR gets its own directory. Publications queue one at a time, preserving the other games. Build artifacts expire after seven days; already published games remain until their PR closes. Closing a PR removes that game's page from the live site; the storage branch still has Git history.
 
+The landing page labels each game with its PR number, title, and author, for example **PR #12: My eagle game — @student**. Give PRs descriptive titles so classmates can find each other's games. Labels refresh from GitHub whenever the site is published. After updating the publisher or renaming a PR, use **Run workflow** on **Publish game previews** to refresh existing labels without rebuilding the games.
+
 If publishing fails after a successful build, inspect **Publish game previews** in Actions and rerun its failed jobs once the problem is fixed. **Run workflow** redeploys the stored collection; it does not import an unpublished build. For an unpublished game with an expired artifact, push a new commit to its PR.
 
 ## Teacher: check changes locally
