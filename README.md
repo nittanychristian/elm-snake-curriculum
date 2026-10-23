@@ -23,11 +23,12 @@ A 5-week middle school after-school programming club. Students build a fully pla
 - [Write tests for your Elm game](tutorials/testing-elm.md): start with visible checks in Ellie, then learn standard Elm unit and fuzz tests.
 - [Add variable food](tutorials/variable-food.md): use ten prey images and randomly choose a different type after each catch.
 - [Add a quiet animated sky](tutorials/animated-background.md): draw two faint clouds and let CSS move them behind the game.
+- [Catch golden food](tutorials/golden-food.md): make every fifth prey worth three points, draw a golden halo, and test the bonus rule.
 - [Share your game with a pull request](tutorials/pr-game-previews.md): submit a game from a fork and get a playable GitHub Pages link, with setup steps for teachers.
 - [Editable eagle artwork](images/): transparent 100 × 100 SVGs for the head, repeating body, tail, and two curved body palettes.
 - [Prey artwork](images/food/): ten transparent 100 × 100 SVGs, embedded in the game for Ellie.
 
-The Week 5 starter is `week5/Main.elm`. The finished [src/Game.elm](src/Game.elm) includes embedded eagle artwork, the full segment renderer, variable prey, and the quiet animated sky, plus wrapping, restart, and high scores. Its tests live in [tests/GameTest.elm](tests/GameTest.elm).
+The Week 5 starter is `week5/Main.elm`. The finished [src/Game.elm](src/Game.elm) includes embedded eagle artwork, the full segment renderer, variable prey, golden food bonuses, and the quiet animated sky, plus wrapping, restart, and high scores. Its tests live in [tests/GameTest.elm](tests/GameTest.elm).
 
 ## Local Dev Setup (Nix)
 

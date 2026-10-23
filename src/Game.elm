@@ -8,6 +8,7 @@
 --   - Wrap-around walls instead of game over on wall hit
 --   - Speed increases with score
 --   - Ten illustrated prey types, with a different random type after every catch
+--   - Every fifth prey has a golden halo and is worth three points
 
 
 module Game exposing
@@ -28,8 +29,10 @@ module Game exposing
     , eagleSegments
     , foodIcon
     , foodName
+    , foodPoints
     , gridSize
     , initialModel
+    , isGoldenFood
     , main
     , nextHead
     , tickGame
@@ -109,6 +112,7 @@ type alias Model =
     , foodType : FoodType
     , randomSeed : Random.Seed
     , score : Int
+    , foodEaten : Int
     , highScore : Int
     , status : GameStatus
     }
@@ -123,6 +127,7 @@ initialModel =
     , foodType = Mouse
     , randomSeed = Random.initialSeed 0
     , score = 0
+    , foodEaten = 0
     , highScore = 0
     , status = Playing
     }
@@ -237,6 +242,20 @@ isOpposite a b =
             False
 
 
+isGoldenFood : Int -> Bool
+isGoldenFood foodEaten =
+    modBy 5 (foodEaten + 1) == 0
+
+
+foodPoints : Int -> Int
+foodPoints foodEaten =
+    if isGoldenFood foodEaten then
+        3
+
+    else
+        1
+
+
 tickGame : Model -> Model
 tickGame model =
     case model.status of
@@ -274,7 +293,7 @@ tickGame model =
 
                 newScore =
                     if ateFood then
-                        model.score + 1
+                        model.score + foodPoints model.foodEaten
 
                     else
                         model.score
@@ -293,6 +312,12 @@ tickGame model =
                 , foodType = newFoodType
                 , randomSeed = newSeed
                 , score = newScore
+                , foodEaten =
+                    if ateFood then
+                        model.foodEaten + 1
+
+                    else
+                        model.foodEaten
                 , highScore = max model.highScore newScore
                 , status = newStatus
             }
@@ -693,6 +718,20 @@ drawEagleSegment segment =
         [ artwork ]
 
 
+drawFoodHalo : Position -> Svg msg
+drawFoodHalo pos =
+    Svg.circle
+        [ SA.cx (String.fromInt (pos.x * cellSize + cellSize // 2))
+        , SA.cy (String.fromInt (pos.y * cellSize + cellSize // 2))
+        , SA.r (String.fromInt (cellSize // 2 - 1))
+        , SA.fill "#facc15"
+        , SA.fillOpacity "0.3"
+        , SA.stroke "#facc15"
+        , SA.strokeWidth "2"
+        ]
+        []
+
+
 drawFood : FoodType -> Position -> Svg msg
 drawFood foodType pos =
     Svg.image
@@ -838,18 +877,36 @@ viewGame model =
             , style "margin-bottom" "8px"
             ]
             [ p [ style "color" "#16a34a", style "margin" "0" ]
-                [ text ("Prey caught: " ++ String.fromInt model.score) ]
+                [ text ("Score: " ++ String.fromInt model.score) ]
             , p [ style "color" "#1d4ed8", style "margin" "0" ]
                 [ text ("Best: " ++ String.fromInt model.highScore) ]
             ]
          , p [ style "color" "#e6cba0", style "margin" "0 0 8px 0" ]
-            [ text ("Next prey: " ++ foodName model.foodType) ]
+            [ text ("Prey caught: " ++ String.fromInt model.foodEaten) ]
+         , p [ style "color" "#e6cba0", style "margin" "0 0 8px 0" ]
+            [ text
+                ("Next prey: "
+                    ++ foodName model.foodType
+                    ++ (if isGoldenFood model.foodEaten then
+                            " (golden! +3 points)"
+
+                        else
+                            " (+1 point)"
+                       )
+                )
+            ]
          , svg
             [ SA.width (String.fromInt (gridSize * cellSize))
             , SA.height (String.fromInt (gridSize * cellSize))
             ]
             (drawBoard
                 ++ List.map drawEagleSegment (eagleSegments model)
+                ++ (if isGoldenFood model.foodEaten then
+                        [ drawFoodHalo model.food ]
+
+                    else
+                        []
+                   )
                 ++ [ drawFood model.foodType model.food ]
             )
          ]

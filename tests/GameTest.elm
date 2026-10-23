@@ -17,6 +17,7 @@ suite =
         , cornerTests
         , gameplayTests
         , foodTests
+        , goldenFoodTests
         ]
 
 
@@ -393,6 +394,93 @@ foodTests =
                     |> Set.fromList
                     |> Expect.equal
                         (Set.fromList (List.map Game.foodName Game.allFoodTypes))
+        ]
+
+
+goldenFoodTests : Test
+goldenFoodTests =
+    describe "Golden food"
+        [ test "the fifth and tenth pieces are golden, starting with an ordinary first piece" <|
+            \_ ->
+                List.map Game.isGoldenFood (List.range 0 10)
+                    |> Expect.equal [ False, False, False, False, True, False, False, False, False, True, False ]
+        , test "four catches make the next prey worth three points" <|
+            \_ ->
+                Game.foodPoints 4
+                    |> Expect.equal 3
+        , test "ten successive catches award fourteen points and count ten prey" <|
+            \_ ->
+                let
+                    catchNext _ previous =
+                        Game.tickGame
+                            { previous | food = Game.nextHead previous.direction previous.head }
+
+                    caught =
+                        List.foldl catchNext Game.initialModel (List.range 1 10)
+                in
+                ( caught.foodEaten, caught.score, caught.status )
+                    |> Expect.equal ( 10, 14, Playing )
+        , test "the sixth piece awards one point even though the fifth awarded three" <|
+            \_ ->
+                let
+                    initial =
+                        Game.initialModel
+
+                    caught =
+                        Game.tickGame { initial | foodEaten = 5, score = 7, food = { x = 11, y = 10 } }
+                in
+                ( caught.foodEaten, caught.score, Game.isGoldenFood caught.foodEaten )
+                    |> Expect.equal ( 6, 8, False )
+        , test "a golden catch grows once, updates the best score, and makes the next food ordinary" <|
+            \_ ->
+                let
+                    initial =
+                        Game.initialModel
+
+                    caught =
+                        Game.tickGame { initial | foodEaten = 4, score = 4, highScore = 6, food = { x = 11, y = 10 } }
+                in
+                Expect.all
+                    [ \model -> Expect.equal 5 model.foodEaten
+                    , \model -> Expect.equal 7 model.score
+                    , \model -> Expect.equal 7 model.highScore
+                    , \model -> Expect.equal (List.length initial.body + 1) (List.length model.body)
+                    , \model -> Expect.equal False (Game.isGoldenFood model.foodEaten)
+                    ]
+                    caught
+        , test "moving without catching leaves a golden piece and both counters alone" <|
+            \_ ->
+                let
+                    initial =
+                        Game.initialModel
+
+                    moved =
+                        Game.tickGame { initial | foodEaten = 4, score = 4 }
+                in
+                ( moved.foodEaten, moved.score, Game.isGoldenFood moved.foodEaten )
+                    |> Expect.equal ( 4, 4, True )
+        , test "a game-over tick cannot catch golden food" <|
+            \_ ->
+                let
+                    initial =
+                        Game.initialModel
+
+                    stopped =
+                        { initial | foodEaten = 4, score = 4, food = { x = 11, y = 10 }, status = GameOver }
+                in
+                Game.tickGame stopped |> Expect.equal stopped
+        , test "restart clears catches and bonus points, preserves the best, and starts with ordinary food" <|
+            \_ ->
+                let
+                    initial =
+                        Game.initialModel
+
+                    restarted =
+                        Game.update Restart { initial | foodEaten = 9, score = 11, highScore = 14, status = GameOver }
+                            |> Tuple.first
+                in
+                ( restarted.foodEaten, restarted.score, restarted.highScore )
+                    |> Expect.equal ( 0, 0, 14 )
         ]
 
 
