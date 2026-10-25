@@ -1,0 +1,11 @@
+{
+
+    "targets": {
+        "game": {
+            "inputs": [
+                "src/Game.elm"
+            ],
+            "output": "main.js"
+        }
+    }
+}
