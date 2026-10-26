@@ -255,22 +255,48 @@ isInBounds : Int -> Int -> Bool
 isInBounds col row =
     col >= 0 && col < gridSize && row >= 0 && row < gridSize
 
+foodWeight : FoodType -> Float
+foodWeight foodType =
+    case foodType of
+        RedShrimp ->
+            5.0
+
+        GoldShrimp ->
+            3.0
+
+        RainbowShrimp ->
+            2.0
+
+        PastelRainbowShrimp ->
+            1.0
+toWeightedTuple : FoodType -> ( Float, FoodType )
+toWeightedTuple foodType =
+    ( foodWeight foodType, foodType )
 differentFood : FoodType -> Random.Generator FoodType
 differentFood current =
     case List.filter ((/=) current) allFoodTypes of
         first :: rest ->
-            Random.uniform first rest
+           Random.weighted (toWeightedTuple first) (List.map toWeightedTuple rest)
 
         [] ->
-            Random.constant RedShrimp -- Fallback, should never happen if allFoodTypes has more than one type
+            -- Fallback fallback generator in case no other food types exist
+            Random.constant current 
+            
+pointValue : FoodType -> Int -> Int
+pointValue foodType currentScore =
+    case foodType of
+        RedShrimp ->
+            1
 
-pointValue : Int -> Int
-pointValue currentScore =
-    if currentScore >= 10 then
-        2
+        GoldShrimp ->
+            5
 
-    else
-        1
+        RainbowShrimp ->
+            15
+
+        PastelRainbowShrimp ->
+            50
+    
 
 
 
@@ -597,7 +623,7 @@ tickGame model =
 
             else if isEating then
                 let
-                    nextScore = model.score + pointValue model.score
+                    nextScore = model.score + pointValue model.foodType model.score
                 in
                 { model
                     | head = nextHeadSeg
