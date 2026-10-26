@@ -614,11 +614,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.aE.aj === region.aR.aj)
+	if (region.aH.al === region.aU.al)
 	{
-		return 'on line ' + region.aE.aj;
+		return 'on line ' + region.aH.al;
 	}
-	return 'on lines ' + region.aE.aj + ' through ' + region.aR.aj;
+	return 'on lines ' + region.aH.al + ' through ' + region.aU.al;
 }
 
 
@@ -1871,9 +1871,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bP,
-		impl.cg,
-		impl.cb,
+		impl.bS,
+		impl.cj,
+		impl.ce,
 		function() { return function() {} }
 	);
 });
@@ -2734,8 +2734,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		M: func(record.M),
-		aF: record.aF,
-		aC: record.aC
+		aI: record.aI,
+		aF: record.aF
 	}
 });
 
@@ -3004,10 +3004,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.M;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aF;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.aI;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.aC) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.aF) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3957,11 +3957,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bP,
-		impl.cg,
-		impl.cb,
+		impl.bS,
+		impl.cj,
+		impl.ce,
 		function(sendToApp, initialModel) {
-			var view = impl.ch;
+			var view = impl.ck;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3993,12 +3993,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bP,
-		impl.cg,
-		impl.cb,
+		impl.bS,
+		impl.cj,
+		impl.ce,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.aD && impl.aD(sendToApp)
-			var view = impl.ch;
+			var divertHrefToApp = impl.aG && impl.aG(sendToApp)
+			var view = impl.ck;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -4011,7 +4011,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.ce) && (_VirtualDom_doc.title = title = doc.ce);
+				(title !== doc.ch) && (_VirtualDom_doc.title = title = doc.ch);
 			});
 		}
 	);
@@ -4067,12 +4067,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.b2;
-	var onUrlRequest = impl.b3;
+	var onUrlChange = impl.b5;
+	var onUrlRequest = impl.b6;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		aD: function(sendToApp)
+		aG: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4088,9 +4088,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.bc === next.bc
-							&& curr.aY === next.aY
-							&& curr.a9.a === next.a9.a
+							&& curr.bf === next.bf
+							&& curr.a$ === next.a$
+							&& curr.bc.a === next.bc.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4098,13 +4098,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		bP: function(flags)
+		bS: function(flags)
 		{
-			return A3(impl.bP, flags, _Browser_getUrl(), key);
+			return A3(impl.bS, flags, _Browser_getUrl(), key);
 		},
-		ch: impl.ch,
-		cg: impl.cg,
-		cb: impl.cb
+		ck: impl.ck,
+		cj: impl.cj,
+		ce: impl.ce
 	});
 }
 
@@ -4170,17 +4170,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { bM: 'hidden', bA: 'visibilitychange' }
+		? { bP: 'hidden', bD: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { bM: 'mozHidden', bA: 'mozvisibilitychange' }
+		? { bP: 'mozHidden', bD: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { bM: 'msHidden', bA: 'msvisibilitychange' }
+		? { bP: 'msHidden', bD: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { bM: 'webkitHidden', bA: 'webkitvisibilitychange' }
-		: { bM: 'hidden', bA: 'visibilitychange' };
+		? { bP: 'webkitHidden', bD: 'webkitvisibilitychange' }
+		: { bP: 'hidden', bD: 'visibilitychange' };
 }
 
 
@@ -4261,12 +4261,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		bh: _Browser_getScene(),
-		bq: {
+		bk: _Browser_getScene(),
+		bt: {
 			f: _Browser_window.pageXOffset,
 			g: _Browser_window.pageYOffset,
-			bs: _Browser_doc.documentElement.clientWidth,
-			aX: _Browser_doc.documentElement.clientHeight
+			bv: _Browser_doc.documentElement.clientWidth,
+			a_: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4276,8 +4276,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		bs: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		aX: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		bv: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		a_: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4300,15 +4300,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			bh: {
-				bs: node.scrollWidth,
-				aX: node.scrollHeight
+			bk: {
+				bv: node.scrollWidth,
+				a_: node.scrollHeight
 			},
-			bq: {
+			bt: {
 				f: node.scrollLeft,
 				g: node.scrollTop,
-				bs: node.clientWidth,
-				aX: node.clientHeight
+				bv: node.clientWidth,
+				a_: node.clientHeight
 			}
 		};
 	});
@@ -4338,18 +4338,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			bh: _Browser_getScene(),
-			bq: {
+			bk: _Browser_getScene(),
+			bt: {
 				f: x,
 				g: y,
-				bs: _Browser_doc.documentElement.clientWidth,
-				aX: _Browser_doc.documentElement.clientHeight
+				bv: _Browser_doc.documentElement.clientWidth,
+				a_: _Browser_doc.documentElement.clientHeight
 			},
-			bG: {
+			bJ: {
 				f: x + rect.left,
 				g: y + rect.top,
-				bs: rect.width,
-				aX: rect.height
+				bv: rect.width,
+				a_: rect.height
 			}
 		};
 	});
@@ -4384,6 +4384,43 @@ function _Browser_load(url)
 		}
 	}));
 }
+
+
+
+var _Bitwise_and = F2(function(a, b)
+{
+	return a & b;
+});
+
+var _Bitwise_or = F2(function(a, b)
+{
+	return a | b;
+});
+
+var _Bitwise_xor = F2(function(a, b)
+{
+	return a ^ b;
+});
+
+function _Bitwise_complement(a)
+{
+	return ~a;
+};
+
+var _Bitwise_shiftLeftBy = F2(function(offset, a)
+{
+	return a << offset;
+});
+
+var _Bitwise_shiftRightBy = F2(function(offset, a)
+{
+	return a >> offset;
+});
+
+var _Bitwise_shiftRightZfBy = F2(function(offset, a)
+{
+	return a >>> offset;
+});
 
 
 
@@ -4839,22 +4876,22 @@ var $elm$core$Array$builderToArray = F2(
 		if (!builder.i) {
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.m),
+				$elm$core$Elm$JsArray$length(builder.l),
 				$elm$core$Array$shiftStep,
 				$elm$core$Elm$JsArray$empty,
-				builder.m);
+				builder.l);
 		} else {
 			var treeLen = builder.i * $elm$core$Array$branchFactor;
 			var depth = $elm$core$Basics$floor(
 				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
-			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.n) : builder.n;
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.m) : builder.m;
 			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.i);
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.m) + treeLen,
+				$elm$core$Elm$JsArray$length(builder.l) + treeLen,
 				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
 				tree,
-				builder.m);
+				builder.l);
 		}
 	});
 var $elm$core$Basics$idiv = _Basics_idiv;
@@ -4867,7 +4904,7 @@ var $elm$core$Array$initializeHelp = F5(
 				return A2(
 					$elm$core$Array$builderToArray,
 					false,
-					{n: nodeList, i: (len / $elm$core$Array$branchFactor) | 0, m: tail});
+					{m: nodeList, i: (len / $elm$core$Array$branchFactor) | 0, l: tail});
 			} else {
 				var leaf = $elm$core$Array$Leaf(
 					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
@@ -4934,7 +4971,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {aT: fragment, aY: host, a7: path, a9: port_, bc: protocol, bd: query};
+		return {aW: fragment, a$: host, ba: path, bc: port_, bf: protocol, bg: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5215,6 +5252,7 @@ var $elm$core$Task$perform = F2(
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Game$FishHead = {$: 0};
 var $author$project$Game$Playing = 0;
+var $author$project$Game$RedShrimp = 0;
 var $author$project$Game$Right = 3;
 var $author$project$Game$FishBody = {$: 1};
 var $author$project$Game$FishTail = function (a) {
@@ -5232,7 +5270,7 @@ var $author$project$Game$buildBody = F2(
 						{
 						d: dir,
 						B: $author$project$Game$FishTail($author$project$Game$FishBody),
-						j: lastPos
+						n: lastPos
 					}
 					]);
 			} else {
@@ -5240,11 +5278,30 @@ var $author$project$Game$buildBody = F2(
 				var remaining = positions.b;
 				return A2(
 					$elm$core$List$cons,
-					{d: dir, B: $author$project$Game$FishBody, j: currentPos},
+					{d: dir, B: $author$project$Game$FishBody, n: currentPos},
 					A2($author$project$Game$buildBody, dir, remaining));
 			}
 		}
 	});
+var $elm$random$Random$Seed = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
+var $elm$random$Random$next = function (_v0) {
+	var state0 = _v0.a;
+	var incr = _v0.b;
+	return A2($elm$random$Random$Seed, ((state0 * 1664525) + incr) >>> 0, incr);
+};
+var $elm$random$Random$initialSeed = function (x) {
+	var _v0 = $elm$random$Random$next(
+		A2($elm$random$Random$Seed, 0, 1013904223));
+	var state1 = _v0.a;
+	var incr = _v0.b;
+	var state2 = (state1 + x) >>> 0;
+	return $elm$random$Random$next(
+		A2($elm$random$Random$Seed, state2, incr));
+};
 var $author$project$Game$initialModel = {
 	H: A2(
 		$author$project$Game$buildBody,
@@ -5256,13 +5313,16 @@ var $author$project$Game$initialModel = {
 			])),
 	d: 3,
 	Q: {f: 5, g: 5},
+	ab: 0,
 	z: {
 		d: 3,
 		B: $author$project$Game$FishHead,
-		j: {f: 10, g: 10}
+		n: {f: 10, g: 10}
 	},
-	_: 0,
-	ab: 0
+	T: 0,
+	an: $elm$random$Random$initialSeed(42),
+	W: 0,
+	ad: 0
 };
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
@@ -5276,7 +5336,7 @@ var $elm$time$Time$Every = F2(
 	});
 var $elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {bb: processes, bo: taggers};
+		return {be: processes, br: taggers};
 	});
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
@@ -5568,7 +5628,7 @@ var $elm$time$Time$spawnHelp = F3(
 	});
 var $elm$time$Time$onEffects = F3(
 	function (router, subs, _v0) {
-		var processes = _v0.bb;
+		var processes = _v0.be;
 		var rightStep = F3(
 			function (_v6, id, _v7) {
 				var spawns = _v7.a;
@@ -5637,7 +5697,7 @@ var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _v0 = A2($elm$core$Dict$get, interval, state.bo);
+		var _v0 = A2($elm$core$Dict$get, interval, state.br);
 		if (_v0.$ === 1) {
 			return $elm$core$Task$succeed(state);
 		} else {
@@ -5686,11 +5746,12 @@ var $elm$time$Time$every = F2(
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$string = _Json_decodeString;
 var $author$project$Game$Down = 1;
-var $author$project$Game$Ignore = {$: 2};
+var $author$project$Game$Ignore = {$: 3};
 var $author$project$Game$KeyPressed = function (a) {
 	return {$: 1, a: a};
 };
 var $author$project$Game$Left = 2;
+var $author$project$Game$Restart = {$: 2};
 var $author$project$Game$Up = 0;
 var $author$project$Game$toMsg = function (key) {
 	switch (key) {
@@ -5702,6 +5763,8 @@ var $author$project$Game$toMsg = function (key) {
 			return $author$project$Game$KeyPressed(2);
 		case 'ArrowRight':
 			return $author$project$Game$KeyPressed(3);
+		case 'r':
+			return $author$project$Game$Restart;
 		default:
 			return $author$project$Game$Ignore;
 	}
@@ -5717,7 +5780,7 @@ var $elm$browser$Browser$Events$MySub = F3(
 	});
 var $elm$browser$Browser$Events$State = F2(
 	function (subs, pids) {
-		return {a8: pids, bn: subs};
+		return {bb: pids, bq: subs};
 	});
 var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
 	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
@@ -5751,7 +5814,7 @@ var $elm$core$Dict$fromList = function (assocs) {
 };
 var $elm$browser$Browser$Events$Event = F2(
 	function (key, event) {
-		return {aS: event, a_: key};
+		return {aV: event, a1: key};
 	});
 var $elm$browser$Browser$Events$spawn = F3(
 	function (router, key, _v0) {
@@ -5825,7 +5888,7 @@ var $elm$browser$Browser$Events$onEffects = F3(
 			stepLeft,
 			stepBoth,
 			stepRight,
-			state.a8,
+			state.bb,
 			$elm$core$Dict$fromList(newSubs),
 			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
 		var deadPids = _v0.a;
@@ -5871,8 +5934,8 @@ var $elm$core$List$filterMap = F2(
 	});
 var $elm$browser$Browser$Events$onSelfMsg = F3(
 	function (router, _v0, state) {
-		var event = _v0.aS;
-		var key = _v0.a_;
+		var event = _v0.aV;
+		var key = _v0.a1;
 		var toMessage = function (_v2) {
 			var subKey = _v2.a;
 			var _v3 = _v2.b;
@@ -5881,7 +5944,7 @@ var $elm$browser$Browser$Events$onSelfMsg = F3(
 			var decoder = _v3.c;
 			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
 		};
-		var messages = A2($elm$core$List$filterMap, toMessage, state.bn);
+		var messages = A2($elm$core$List$filterMap, toMessage, state.bq);
 		return A2(
 			$elm$core$Task$andThen,
 			function (_v1) {
@@ -5924,6 +5987,136 @@ var $author$project$Game$GameOver = 1;
 var $author$project$Game$FishBend = function (a) {
 	return {$: 2, a: a};
 };
+var $author$project$Game$GoldShrimp = 1;
+var $author$project$Game$PastelRainbowShrimp = 3;
+var $author$project$Game$RainbowShrimp = 2;
+var $author$project$Game$allFoodTypes = _List_fromArray(
+	[0, 1, 2, 3]);
+var $elm$random$Random$Generator = $elm$core$Basics$identity;
+var $elm$random$Random$constant = function (value) {
+	return function (seed) {
+		return _Utils_Tuple2(value, seed);
+	};
+};
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $elm$random$Random$addOne = function (value) {
+	return _Utils_Tuple2(1, value);
+};
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$core$Basics$abs = function (n) {
+	return (n < 0) ? (-n) : n;
+};
+var $elm$core$Bitwise$and = _Bitwise_and;
+var $elm$core$Bitwise$xor = _Bitwise_xor;
+var $elm$random$Random$peel = function (_v0) {
+	var state = _v0.a;
+	var word = (state ^ (state >>> ((state >>> 28) + 4))) * 277803737;
+	return ((word >>> 22) ^ word) >>> 0;
+};
+var $elm$random$Random$float = F2(
+	function (a, b) {
+		return function (seed0) {
+			var seed1 = $elm$random$Random$next(seed0);
+			var range = $elm$core$Basics$abs(b - a);
+			var n1 = $elm$random$Random$peel(seed1);
+			var n0 = $elm$random$Random$peel(seed0);
+			var lo = (134217727 & n1) * 1.0;
+			var hi = (67108863 & n0) * 1.0;
+			var val = ((hi * 134217728.0) + lo) / 9007199254740992.0;
+			var scaled = (val * range) + a;
+			return _Utils_Tuple2(
+				scaled,
+				$elm$random$Random$next(seed1));
+		};
+	});
+var $elm$random$Random$getByWeight = F3(
+	function (_v0, others, countdown) {
+		getByWeight:
+		while (true) {
+			var weight = _v0.a;
+			var value = _v0.b;
+			if (!others.b) {
+				return value;
+			} else {
+				var second = others.a;
+				var otherOthers = others.b;
+				if (_Utils_cmp(
+					countdown,
+					$elm$core$Basics$abs(weight)) < 1) {
+					return value;
+				} else {
+					var $temp$_v0 = second,
+						$temp$others = otherOthers,
+						$temp$countdown = countdown - $elm$core$Basics$abs(weight);
+					_v0 = $temp$_v0;
+					others = $temp$others;
+					countdown = $temp$countdown;
+					continue getByWeight;
+				}
+			}
+		}
+	});
+var $elm$random$Random$map = F2(
+	function (func, _v0) {
+		var genA = _v0;
+		return function (seed0) {
+			var _v1 = genA(seed0);
+			var a = _v1.a;
+			var seed1 = _v1.b;
+			return _Utils_Tuple2(
+				func(a),
+				seed1);
+		};
+	});
+var $elm$core$List$sum = function (numbers) {
+	return A3($elm$core$List$foldl, $elm$core$Basics$add, 0, numbers);
+};
+var $elm$random$Random$weighted = F2(
+	function (first, others) {
+		var normalize = function (_v0) {
+			var weight = _v0.a;
+			return $elm$core$Basics$abs(weight);
+		};
+		var total = normalize(first) + $elm$core$List$sum(
+			A2($elm$core$List$map, normalize, others));
+		return A2(
+			$elm$random$Random$map,
+			A2($elm$random$Random$getByWeight, first, others),
+			A2($elm$random$Random$float, 0, total));
+	});
+var $elm$random$Random$uniform = F2(
+	function (value, valueList) {
+		return A2(
+			$elm$random$Random$weighted,
+			$elm$random$Random$addOne(value),
+			A2($elm$core$List$map, $elm$random$Random$addOne, valueList));
+	});
+var $author$project$Game$differentFood = function (current) {
+	var _v0 = A2(
+		$elm$core$List$filter,
+		$elm$core$Basics$neq(current),
+		$author$project$Game$allFoodTypes);
+	if (_v0.b) {
+		var first = _v0.a;
+		var rest = _v0.b;
+		return A2($elm$random$Random$uniform, first, rest);
+	} else {
+		return $elm$random$Random$constant(0);
+	}
+};
 var $elm$core$List$any = F2(
 	function (isOkay, list) {
 		any:
@@ -5950,44 +6143,56 @@ var $author$project$Game$hitsItself = F2(
 		return A2(
 			$elm$core$List$any,
 			function (segment) {
-				return _Utils_eq(segment.j.f, headSeg.j.f) && _Utils_eq(segment.j.g, headSeg.j.g);
+				return _Utils_eq(segment.n.f, headSeg.n.f) && _Utils_eq(segment.n.g, headSeg.n.g);
 			},
 			bodySegments);
 	});
-var $elm$core$Basics$ge = _Utils_ge;
 var $author$project$Game$gridSize = 20;
-var $author$project$Game$isInBounds = F2(
-	function (col, row) {
-		return (col >= 0) && ((_Utils_cmp(col, $author$project$Game$gridSize) < 0) && ((row >= 0) && (_Utils_cmp(row, $author$project$Game$gridSize) < 0)));
-	});
+var $elm$core$Basics$modBy = _Basics_modBy;
 var $author$project$Game$nextHead = F2(
 	function (inputDir, currentHead) {
-		var currentPos = currentHead.j;
+		var currentPos = currentHead.n;
 		var newPosition = function () {
 			switch (inputDir) {
 				case 0:
-					return {f: currentPos.f, g: currentPos.g - 1};
+					return {
+						f: currentPos.f,
+						g: A2($elm$core$Basics$modBy, $author$project$Game$gridSize, currentPos.g - 1)
+					};
 				case 1:
-					return {f: currentPos.f, g: currentPos.g + 1};
+					return {
+						f: currentPos.f,
+						g: A2($elm$core$Basics$modBy, $author$project$Game$gridSize, currentPos.g + 1)
+					};
 				case 2:
-					return {f: currentPos.f - 1, g: currentPos.g};
+					return {
+						f: A2($elm$core$Basics$modBy, $author$project$Game$gridSize, currentPos.f - 1),
+						g: currentPos.g
+					};
 				default:
-					return {f: currentPos.f + 1, g: currentPos.g};
+					return {
+						f: A2($elm$core$Basics$modBy, $author$project$Game$gridSize, currentPos.f + 1),
+						g: currentPos.g
+					};
 			}
 		}();
-		return {d: inputDir, B: $author$project$Game$FishHead, j: newPosition};
+		return {d: inputDir, B: $author$project$Game$FishHead, n: newPosition};
 	});
-var $elm$core$Basics$not = _Basics_not;
+var $elm$core$Basics$ge = _Utils_ge;
 var $author$project$Game$pointValue = function (currentScore) {
 	return (currentScore >= 10) ? 2 : 1;
 };
-var $elm$core$Basics$modBy = _Basics_modBy;
 var $author$project$Game$respawnFood = function (current) {
 	return {
 		f: A2($elm$core$Basics$modBy, $author$project$Game$gridSize, (current.f * 7) + 3),
 		g: A2($elm$core$Basics$modBy, $author$project$Game$gridSize, (current.g * 13) + 7)
 	};
 };
+var $elm$random$Random$step = F2(
+	function (_v0, seed) {
+		var generator = _v0;
+		return generator(seed);
+	});
 var $elm$core$List$takeReverse = F3(
 	function (n, list, kept) {
 		takeReverse:
@@ -6131,33 +6336,44 @@ var $author$project$Game$updateTailSegment = function (segments) {
 	}
 };
 var $author$project$Game$tickGame = function (model) {
-	var _v0 = model.ab;
+	var _v0 = model.ad;
 	if (_v0 === 1) {
 		return model;
 	} else {
-		var oldHeadAsBodyPart = _Utils_eq(model.z.d, model.d) ? {d: model.z.d, B: $author$project$Game$FishBody, j: model.z.j} : {
+		var oldHeadAsBodyPart = _Utils_eq(model.z.d, model.d) ? {d: model.z.d, B: $author$project$Game$FishBody, n: model.z.n} : {
 			d: model.z.d,
 			B: $author$project$Game$FishBend(model.d),
-			j: model.z.j
+			n: model.z.n
 		};
 		var nextHeadSeg = A2($author$project$Game$nextHead, model.d, model.z);
-		var isEating = _Utils_eq(nextHeadSeg.j.f, model.Q.f) && _Utils_eq(nextHeadSeg.j.g, model.Q.g);
-		var isCrash = (!A2($author$project$Game$isInBounds, nextHeadSeg.j.f, nextHeadSeg.j.g)) || A2($author$project$Game$hitsItself, nextHeadSeg, model.H);
+		var isEating = _Utils_eq(nextHeadSeg.n.f, model.Q.f) && _Utils_eq(nextHeadSeg.n.g, model.Q.g);
+		var isCrash = A2($author$project$Game$hitsItself, nextHeadSeg, model.H);
+		var _v1 = isEating ? A2(
+			$elm$random$Random$step,
+			$author$project$Game$differentFood(model.ab),
+			model.an) : _Utils_Tuple2(model.ab, model.an);
+		var newFoodType = _v1.a;
+		var newSeed = _v1.b;
 		if (isCrash) {
 			return _Utils_update(
 				model,
-				{ab: 1});
+				{
+					T: A2($elm$core$Basics$max, model.T, model.W),
+					ad: 1
+				});
 		} else {
 			if (isEating) {
-				var nextScore = model._ + $author$project$Game$pointValue(model._);
+				var nextScore = model.W + $author$project$Game$pointValue(model.W);
 				return _Utils_update(
 					model,
 					{
 						H: $author$project$Game$updateTailSegment(
 							A2($elm$core$List$cons, oldHeadAsBodyPart, model.H)),
 						Q: $author$project$Game$respawnFood(model.Q),
+						ab: newFoodType,
 						z: nextHeadSeg,
-						_: nextScore
+						an: newSeed,
+						W: nextScore
 					});
 			} else {
 				return _Utils_update(
@@ -6223,7 +6439,7 @@ var $author$project$Game$update = F2(
 					}
 					return false;
 				}();
-				return (isOpposite || (model.ab === 1)) ? _Utils_Tuple2(model, $elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+				return (isOpposite || (model.ad === 1)) ? _Utils_Tuple2(model, $elm$core$Platform$Cmd$none) : _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{d: newDir}),
@@ -6231,6 +6447,12 @@ var $author$project$Game$update = F2(
 			case 0:
 				return _Utils_Tuple2(
 					$author$project$Game$tickGame(model),
+					$elm$core$Platform$Cmd$none);
+			case 2:
+				return _Utils_Tuple2(
+					_Utils_update(
+						$author$project$Game$initialModel,
+						{T: model.T}),
 					$elm$core$Platform$Cmd$none);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -7985,7 +8207,7 @@ var $author$project$Game$drawSegment = function (segment) {
 		}
 		return $author$project$Game$directionToAngle(segment.d);
 	}();
-	return A3($author$project$Game$drawComponentWithAngle, renderAsset, angle, segment.j);
+	return A3($author$project$Game$drawComponentWithAngle, renderAsset, angle, segment.n);
 };
 var $author$project$Game$drawFish = F2(
 	function (head, body) {
@@ -8407,6 +8629,13 @@ var $author$project$Game$baseShrimp = function (attrs) {
 				_List_Nil)
 			]));
 };
+var $author$project$Game$goldShrimp = function (attributes) {
+	return $author$project$Game$baseShrimp(
+		A2(
+			$elm$core$List$cons,
+			$elm$svg$Svg$Attributes$fill('#FFD700'),
+			attributes));
+};
 var $elm$svg$Svg$defs = $elm$svg$Svg$trustedNode('defs');
 var $elm$svg$Svg$Attributes$id = _VirtualDom_attribute('id');
 var $elm$svg$Svg$linearGradient = $elm$svg$Svg$trustedNode('linearGradient');
@@ -8497,12 +8726,115 @@ var $author$project$Game$pastelRainbowShrimp = function (attributes) {
 					attributes))
 			]));
 };
-var $author$project$Game$fishFood = $author$project$Game$pastelRainbowShrimp;
+var $author$project$Game$rainbowShrimp = function (attributes) {
+	return A2(
+		$elm$svg$Svg$g,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$svg$Svg$defs,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$svg$Svg$linearGradient,
+						_List_fromArray(
+							[
+								$elm$svg$Svg$Attributes$id('rainbow-gradient'),
+								$elm$svg$Svg$Attributes$x1('0%'),
+								$elm$svg$Svg$Attributes$y1('0%'),
+								$elm$svg$Svg$Attributes$x2('100%'),
+								$elm$svg$Svg$Attributes$y2('0%')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$svg$Svg$stop,
+								_List_fromArray(
+									[
+										$elm$svg$Svg$Attributes$offset('0%'),
+										$elm$svg$Svg$Attributes$stopColor('#FF0000')
+									]),
+								_List_Nil),
+								A2(
+								$elm$svg$Svg$stop,
+								_List_fromArray(
+									[
+										$elm$svg$Svg$Attributes$offset('20%'),
+										$elm$svg$Svg$Attributes$stopColor('#FF7F00')
+									]),
+								_List_Nil),
+								A2(
+								$elm$svg$Svg$stop,
+								_List_fromArray(
+									[
+										$elm$svg$Svg$Attributes$offset('40%'),
+										$elm$svg$Svg$Attributes$stopColor('#FFFF00')
+									]),
+								_List_Nil),
+								A2(
+								$elm$svg$Svg$stop,
+								_List_fromArray(
+									[
+										$elm$svg$Svg$Attributes$offset('60%'),
+										$elm$svg$Svg$Attributes$stopColor('#00FF00')
+									]),
+								_List_Nil),
+								A2(
+								$elm$svg$Svg$stop,
+								_List_fromArray(
+									[
+										$elm$svg$Svg$Attributes$offset('80%'),
+										$elm$svg$Svg$Attributes$stopColor('#0000FF')
+									]),
+								_List_Nil),
+								A2(
+								$elm$svg$Svg$stop,
+								_List_fromArray(
+									[
+										$elm$svg$Svg$Attributes$offset('100%'),
+										$elm$svg$Svg$Attributes$stopColor('#8B00FF')
+									]),
+								_List_Nil)
+							]))
+					])),
+				$author$project$Game$baseShrimp(
+				A2(
+					$elm$core$List$cons,
+					$elm$svg$Svg$Attributes$fill('url(#rainbow-gradient)'),
+					attributes))
+			]));
+};
+var $author$project$Game$redShrimp = function (attributes) {
+	return $author$project$Game$baseShrimp(
+		A2(
+			$elm$core$List$cons,
+			$elm$svg$Svg$Attributes$fill('#ff0000'),
+			attributes));
+};
+var $author$project$Game$fishFood = F2(
+	function (foodType, attributes) {
+		switch (foodType) {
+			case 0:
+				return $author$project$Game$redShrimp(attributes);
+			case 1:
+				return $author$project$Game$goldShrimp(attributes);
+			case 2:
+				return $author$project$Game$rainbowShrimp(attributes);
+			default:
+				return $author$project$Game$pastelRainbowShrimp(attributes);
+		}
+	});
 var $elm$svg$Svg$rect = $elm$svg$Svg$trustedNode('rect');
 var $author$project$Game$drawBoard = function (model) {
 	var foodGraphic = _List_fromArray(
 		[
-			A3($author$project$Game$drawComponentWithAngle, $author$project$Game$fishFood, 0, model.Q)
+			A3(
+			$author$project$Game$drawComponentWithAngle,
+			$author$project$Game$fishFood(model.ab),
+			0,
+			model.Q)
 		]);
 	var fishGraphics = A2($author$project$Game$drawFish, model.z, model.H);
 	var boardBackground = _List_fromArray(
@@ -8528,7 +8860,7 @@ var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Game$view = function (model) {
 	var gameOverOverlay = function () {
-		var _v0 = model.ab;
+		var _v0 = model.ad;
 		if (_v0 === 1) {
 			return A2(
 				$elm$html$Html$p,
@@ -8568,7 +8900,7 @@ var $author$project$Game$view = function (model) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						'Score: ' + $elm$core$String$fromInt(model._))
+						'Score: ' + ($elm$core$String$fromInt(model.W) + (' | High Score: ' + $elm$core$String$fromInt(model.T))))
 					])),
 				A2(
 				$elm$svg$Svg$svg,
@@ -8583,12 +8915,12 @@ var $author$project$Game$view = function (model) {
 };
 var $author$project$Game$main = $elm$browser$Browser$element(
 	{
-		bP: function (_v0) {
+		bS: function (_v0) {
 			return _Utils_Tuple2($author$project$Game$initialModel, $elm$core$Platform$Cmd$none);
 		},
-		cb: $author$project$Game$subscriptions,
-		cg: $author$project$Game$update,
-		ch: $author$project$Game$view
+		ce: $author$project$Game$subscriptions,
+		cj: $author$project$Game$update,
+		ck: $author$project$Game$view
 	});
 _Platform_export({'Game':{'init':$author$project$Game$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
