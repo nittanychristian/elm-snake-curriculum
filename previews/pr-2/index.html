@@ -5313,15 +5313,15 @@ var $author$project$Game$initialModel = {
 			])),
 	d: 3,
 	Q: {f: 5, g: 5},
-	ab: 0,
+	R: 0,
 	z: {
 		d: 3,
 		B: $author$project$Game$FishHead,
 		n: {f: 10, g: 10}
 	},
-	T: 0,
+	U: 0,
 	an: $elm$random$Random$initialSeed(42),
-	W: 0,
+	X: 0,
 	ad: 0
 };
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
@@ -6010,8 +6010,22 @@ var $elm$core$List$filter = F2(
 			list);
 	});
 var $elm$core$Basics$neq = _Utils_notEqual;
-var $elm$random$Random$addOne = function (value) {
-	return _Utils_Tuple2(1, value);
+var $author$project$Game$foodWeight = function (foodType) {
+	switch (foodType) {
+		case 0:
+			return 5.0;
+		case 1:
+			return 3.0;
+		case 2:
+			return 2.0;
+		default:
+			return 1.0;
+	}
+};
+var $author$project$Game$toWeightedTuple = function (foodType) {
+	return _Utils_Tuple2(
+		$author$project$Game$foodWeight(foodType),
+		foodType);
 };
 var $elm$core$Basics$negate = function (n) {
 	return -n;
@@ -6097,13 +6111,6 @@ var $elm$random$Random$weighted = F2(
 			A2($elm$random$Random$getByWeight, first, others),
 			A2($elm$random$Random$float, 0, total));
 	});
-var $elm$random$Random$uniform = F2(
-	function (value, valueList) {
-		return A2(
-			$elm$random$Random$weighted,
-			$elm$random$Random$addOne(value),
-			A2($elm$core$List$map, $elm$random$Random$addOne, valueList));
-	});
 var $author$project$Game$differentFood = function (current) {
 	var _v0 = A2(
 		$elm$core$List$filter,
@@ -6112,9 +6119,12 @@ var $author$project$Game$differentFood = function (current) {
 	if (_v0.b) {
 		var first = _v0.a;
 		var rest = _v0.b;
-		return A2($elm$random$Random$uniform, first, rest);
+		return A2(
+			$elm$random$Random$weighted,
+			$author$project$Game$toWeightedTuple(first),
+			A2($elm$core$List$map, $author$project$Game$toWeightedTuple, rest));
 	} else {
-		return $elm$random$Random$constant(0);
+		return $elm$random$Random$constant(current);
 	}
 };
 var $elm$core$List$any = F2(
@@ -6178,10 +6188,19 @@ var $author$project$Game$nextHead = F2(
 		}();
 		return {d: inputDir, B: $author$project$Game$FishHead, n: newPosition};
 	});
-var $elm$core$Basics$ge = _Utils_ge;
-var $author$project$Game$pointValue = function (currentScore) {
-	return (currentScore >= 10) ? 2 : 1;
-};
+var $author$project$Game$pointValue = F2(
+	function (foodType, currentScore) {
+		switch (foodType) {
+			case 0:
+				return 1;
+			case 1:
+				return 5;
+			case 2:
+				return 15;
+			default:
+				return 50;
+		}
+	});
 var $author$project$Game$respawnFood = function (current) {
 	return {
 		f: A2($elm$core$Basics$modBy, $author$project$Game$gridSize, (current.f * 7) + 3),
@@ -6350,30 +6369,30 @@ var $author$project$Game$tickGame = function (model) {
 		var isCrash = A2($author$project$Game$hitsItself, nextHeadSeg, model.H);
 		var _v1 = isEating ? A2(
 			$elm$random$Random$step,
-			$author$project$Game$differentFood(model.ab),
-			model.an) : _Utils_Tuple2(model.ab, model.an);
+			$author$project$Game$differentFood(model.R),
+			model.an) : _Utils_Tuple2(model.R, model.an);
 		var newFoodType = _v1.a;
 		var newSeed = _v1.b;
 		if (isCrash) {
 			return _Utils_update(
 				model,
 				{
-					T: A2($elm$core$Basics$max, model.T, model.W),
+					U: A2($elm$core$Basics$max, model.U, model.X),
 					ad: 1
 				});
 		} else {
 			if (isEating) {
-				var nextScore = model.W + $author$project$Game$pointValue(model.W);
+				var nextScore = model.X + A2($author$project$Game$pointValue, model.R, model.X);
 				return _Utils_update(
 					model,
 					{
 						H: $author$project$Game$updateTailSegment(
 							A2($elm$core$List$cons, oldHeadAsBodyPart, model.H)),
 						Q: $author$project$Game$respawnFood(model.Q),
-						ab: newFoodType,
+						R: newFoodType,
 						z: nextHeadSeg,
 						an: newSeed,
-						W: nextScore
+						X: nextScore
 					});
 			} else {
 				return _Utils_update(
@@ -6452,7 +6471,7 @@ var $author$project$Game$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						$author$project$Game$initialModel,
-						{T: model.T}),
+						{U: model.U}),
 					$elm$core$Platform$Cmd$none);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -8832,7 +8851,7 @@ var $author$project$Game$drawBoard = function (model) {
 		[
 			A3(
 			$author$project$Game$drawComponentWithAngle,
-			$author$project$Game$fishFood(model.ab),
+			$author$project$Game$fishFood(model.R),
 			0,
 			model.Q)
 		]);
@@ -8900,7 +8919,7 @@ var $author$project$Game$view = function (model) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						'Score: ' + ($elm$core$String$fromInt(model.W) + (' | High Score: ' + $elm$core$String$fromInt(model.T))))
+						'Score: ' + ($elm$core$String$fromInt(model.X) + (' | High Score: ' + $elm$core$String$fromInt(model.U))))
 					])),
 				A2(
 				$elm$svg$Svg$svg,
