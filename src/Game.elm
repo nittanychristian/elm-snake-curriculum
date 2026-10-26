@@ -12,6 +12,8 @@ import Svg exposing (Svg, rect, svg)
 
 import Svg.Attributes as SA
 import Time
+import Random
+import Task
 
 
 gridSize : Int
@@ -59,9 +61,37 @@ type alias Model =
     , body : List Segment      -- Week 4: body is a List
     , direction : Direction
     , food : Position
+    , foodType : FoodType
+    , randomSeed : Random.Seed
     , score : Int
+    , highScore : Int   -- new
     , status : GameStatus       -- Week 4: track game over state
     }
+
+type FoodType
+    = RedShrimp
+    | GoldShrimp
+    | RainbowShrimp
+    | PastelRainbowShrimp
+
+
+
+allFoodTypes : List FoodType
+allFoodTypes =
+    [ RedShrimp, GoldShrimp, RainbowShrimp, PastelRainbowShrimp
+    ]
+
+foodName : FoodType -> String
+foodName foodType =
+    case foodType of
+        RedShrimp ->
+            "Red Shrimp"
+        GoldShrimp ->
+            "Gold Shrimp"
+        RainbowShrimp ->
+            "Rainbow Shrimp"
+        PastelRainbowShrimp ->
+            "Pastel Rainbow Shrimp"
 
 -- Images
 
@@ -196,8 +226,20 @@ pastelRainbowShrimp attributes =
         , baseShrimp (SA.fill "url(#rainbow-gradient)" :: attributes)
         ]
 
-fishFood : List (Svg.Attribute msg) -> Svg.Svg msg
-fishFood = pastelRainbowShrimp
+fishFood : FoodType -> List (Svg.Attribute msg) -> Svg.Svg msg
+fishFood foodType attributes =
+    case foodType of
+        RedShrimp ->
+            redShrimp attributes
+
+        GoldShrimp ->
+            goldShrimp attributes
+
+        RainbowShrimp ->
+            rainbowShrimp attributes
+
+        PastelRainbowShrimp ->
+            pastelRainbowShrimp attributes
 
 fishBend : List (Svg.Attribute msg) -> Svg.Svg msg
 fishBend attrs = Svg.node "svg" ([attribute "xmlns" "http://www.w3.org/2000/svg", attribute "width" "100", attribute "height" "100", attribute "viewBox" "0 0 100 100", attribute "role" "img", attribute "aria-labelledby" "title desc"] ++ attrs) [ Svg.node "title" ([attribute "id" "title"]) [ Svg.text("Curved swordfish body")], Svg.node "desc" ([attribute "id" "desc"]) [ Svg.text("A quarter-circle body connecting the left and top cell edges, each from 28 to 72. Rotate around the cell center for other corners.")], Svg.node "defs" ([]) [ Svg.node "radialGradient" ([attribute "id" "bend-skin", attribute "cx" "0", attribute "cy" "0", attribute "r" "72", attribute "gradientUnits" "userSpaceOnUse"]) [ Svg.node "stop" ([attribute "offset" ".388889", attribute "stop-color" "#f58160"]) [], Svg.node "stop" ([attribute "offset" ".663889", attribute "stop-color" "#ffb88a"]) [], Svg.node "stop" ([attribute "offset" ".847222", attribute "stop-color" "#ffd5a0"]) [], Svg.node "stop" ([attribute "offset" "1", attribute "stop-color" "#ffe8bd"]) []]] {- Annular arcs preserve the straight tile's width at both joining edges. -}, Svg.node "path" ([attribute "fill" "url(#bend-skin)", attribute "d" "M0 28A28 28 0 0 0 28 0H72A72 72 0 0 1 0 72Z"]) [], Svg.node "path" ([attribute "fill" "#ed795e", attribute "d" "M0 28A28 28 0 0 0 28 0H34A34 34 0 0 1 0 34Z"]) [], Svg.node "path" ([attribute "fill" "#fff0c8", attribute "d" "M0 66A66 66 0 0 0 66 0H72A72 72 0 0 1 0 72Z"]) [], Svg.node "g" ([attribute "fill" "none", attribute "stroke" "#e9916c", attribute "stroke-width" "1.6", attribute "stroke-linecap" "round", attribute "opacity" ".65"]) [ Svg.node "path" ([attribute "d" "M12 39Q20 43 15 50M28 29Q37 30 37 39M39 12Q48 12 50 19"]) [], Svg.node "path" ([attribute "d" "M12 55Q20 60 17 64M36 45Q45 46 46 54M53 24Q62 23 65 30"]) []], Svg.node "g" ([attribute "fill" "#ffe8b5", attribute "opacity" ".9"]) [ Svg.node "ellipse" ([attribute "cx" "12", attribute "cy" "42", attribute "rx" "4", attribute "ry" "1.5", attribute "transform" "rotate(-16 12 42)"]) [], Svg.node "ellipse" ([attribute "cx" "29", attribute "cy" "32", attribute "rx" "4", attribute "ry" "1.5", attribute "transform" "rotate(-43 29 32)"]) [], Svg.node "ellipse" ([attribute "cx" "42", attribute "cy" "12", attribute "rx" "4", attribute "ry" "1.5", attribute "transform" "rotate(-74 42 12)"]) []]]
@@ -213,6 +255,14 @@ isInBounds : Int -> Int -> Bool
 isInBounds col row =
     col >= 0 && col < gridSize && row >= 0 && row < gridSize
 
+differentFood : FoodType -> Random.Generator FoodType
+differentFood current =
+    case List.filter ((/=) current) allFoodTypes of
+        first :: rest ->
+            Random.uniform first rest
+
+        [] ->
+            Random.constant RedShrimp -- Fallback, should never happen if allFoodTypes has more than one type
 
 pointValue : Int -> Int
 pointValue currentScore =
@@ -381,7 +431,7 @@ drawBoard model =
             drawFish model.head model.body
 
         foodGraphic =
-            [ drawComponentWithAngle fishFood 0 model.food ]
+            [ drawComponentWithAngle (fishFood model.foodType) 0 model.food ]
     in
     boardBackground ++ fishGraphics ++ foodGraphic
 
@@ -427,7 +477,10 @@ initialModel =
     , body = buildBody Right [ { x = 9, y = 10 }, { x = 8, y = 10 } ]
     , direction = Right
     , food = { x = 5, y = 5 }
+    , foodType = RedShrimp
+    , randomSeed = Random.initialSeed 42
     , score = 0
+    , highScore = 0
     , status = Playing
     }
 
@@ -435,6 +488,7 @@ initialModel =
 type Msg
     = Tick Time.Posix
     | KeyPressed Direction
+    | Restart
     | Ignore
     
 
@@ -452,16 +506,16 @@ nextHead inputDir currentHead =
         newPosition =
             case inputDir of
                 Up ->
-                    { x = currentPos.x, y = currentPos.y - 1 }
+                    { x = currentPos.x, y = modBy gridSize (currentPos.y - 1) }
 
                 Down ->
-                    { x = currentPos.x, y = currentPos.y + 1 }
+                    { x = currentPos.x, y = modBy gridSize (currentPos.y + 1) }
 
                 Left ->
-                    { x = currentPos.x - 1, y = currentPos.y }
+                    { x = modBy gridSize (currentPos.x - 1), y = currentPos.y }
 
                 Right ->
-                    { x = currentPos.x + 1, y = currentPos.y }
+                    { x = modBy gridSize (currentPos.x + 1), y = currentPos.y }
     in
     -- 3. Return a clean, fully-formed Segment record
     { part = FishHead
@@ -522,14 +576,24 @@ tickGame model =
 
                 -- 3. Check for collisions right away
                 isCrash =
-                    not (isInBounds nextHeadSeg.position.x nextHeadSeg.position.y) 
-                        || hitsItself nextHeadSeg model.body
+                    hitsItself nextHeadSeg model.body
                         
                 isEating =
                     nextHeadSeg.position.x == model.food.x && nextHeadSeg.position.y == model.food.y
+                ( newFoodType, newSeed ) =
+                   if isEating then
+                        Random.step (differentFood model.foodType) model.randomSeed
+
+                   else
+                        ( model.foodType, model.randomSeed )
+
+                
             in
             if isCrash then
-                { model | status = GameOver }
+                { model | status = GameOver
+                , highScore = max model.highScore model.score
+                }
+             
 
             else if isEating then
                 let
@@ -539,6 +603,8 @@ tickGame model =
                     | head = nextHeadSeg
                     , body = updateTailSegment (oldHeadAsBodyPart :: model.body) -- Grows natively!
                     , food = respawnFood model.food
+                    , foodType = newFoodType
+                    , randomSeed = newSeed
                     , score = nextScore
                 }
 
@@ -572,6 +638,9 @@ update msg model =
 
         Tick _ ->
             ( tickGame model, Cmd.none )
+        
+        Restart ->
+            ( { initialModel | highScore = model.highScore }, Cmd.none )
 
         Ignore ->
             ( model, Cmd.none )
@@ -601,7 +670,7 @@ view model =
         , style "display" "inline-block"
         ]
         [ p [ style "color" "#16a34a", style "margin" "0 0 8px 0" ] 
-            [ text ("Score: " ++ String.fromInt model.score) ]
+            [ text ("Score: " ++ String.fromInt model.score ++ " | High Score: " ++ String.fromInt model.highScore) ]
             
         , svg [ SA.width boardSize, SA.height boardSize ] 
             (drawBoard model)
@@ -630,6 +699,8 @@ toMsg key =
 
         "ArrowRight" ->
             KeyPressed Right
+
+        "r" -> Restart
 
         _ ->
             Ignore
