@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">Repeating swordfish body</title>
+  <desc id="desc">A peach, coral, and cream body tile. Both edges have identical colors and a y 28 through 72 profile for seamless horizontal repetition.</desc>
+  <defs>
+    <linearGradient id="body-skin" x1="0" y1="28" x2="0" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f58160"/>
+      <stop offset=".45" stop-color="#ffb88a"/>
+      <stop offset=".75" stop-color="#ffd5a0"/>
+      <stop offset="1" stop-color="#ffe8bd"/>
+    </linearGradient>
+  </defs>
+  <!-- No end strokes: adjacent tiles meet without a visible dividing line. -->
+  <path fill="url(#body-skin)" d="M0 28H100V72H0Z"/>
+  <path fill="#ed795e" d="M0 28H100V34H0Z"/>
+  <path fill="#fff0c8" d="M0 66H100V72H0Z"/>
+  <g fill="none" stroke="#e9916c" stroke-width="1.6" stroke-linecap="round" opacity=".65">
+    <path d="M17 39Q24 45 17 51M42 39Q49 45 42 51M67 39Q74 45 67 51M92 39Q99 45 92 51"/>
+    <path d="M4.5 52Q11.5 58 4.5 64M29.5 52Q36.5 58 29.5 64M54.5 52Q61.5 58 54.5 64M79.5 52Q86.5 58 79.5 64"/>
+  </g>
+  <g fill="#ffe8b5" opacity=".9">
+    <ellipse cx="16" cy="42" rx="4" ry="1.5"/>
+    <ellipse cx="41" cy="42" rx="4" ry="1.5"/>
+    <ellipse cx="66" cy="42" rx="4" ry="1.5"/>
+    <ellipse cx="91" cy="42" rx="4" ry="1.5"/>
+  </g>
+</svg>

@@ -3,3 +3,6 @@ dist/
 result
 .direnv
 .claude/settings.local.json
+index.html
+.gitignore
+main.js

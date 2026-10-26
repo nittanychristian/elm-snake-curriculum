@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">Swordfish tail</title>
+  <desc id="desc">A swept, forked golden tail for a right-facing swordfish. Its right edge joins the body at y 28 through 72.</desc>
+  <defs>
+    <linearGradient id="tail-skin" x1="0" y1="28" x2="0" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f58160"/>
+      <stop offset=".45" stop-color="#ffb88a"/>
+      <stop offset=".75" stop-color="#ffd5a0"/>
+      <stop offset="1" stop-color="#ffe8bd"/>
+    </linearGradient>
+    <linearGradient id="tail-fin" x1="10" y1="12" x2="61" y2="82" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff1ab"/>
+      <stop offset=".5" stop-color="#ffc77e"/>
+      <stop offset="1" stop-color="#f58b63"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#tail-fin)" d="M65 43C45 36 27 18 9 7C11 25 20 40 35 50C20 60 11 75 9 93C27 82 45 64 65 57L75 50Z"/>
+  <path fill="#fff0b5" d="M9 7C11 25 20 40 35 50C27 36 20 21 9 7ZM35 50C20 60 11 75 9 93C18 79 27 65 35 50Z"/>
+  <g fill="none" stroke="#e99565" stroke-width="1.7" stroke-linecap="round">
+    <path d="M56 46C40 37 27 25 17 17"/>
+    <path d="M51 48C38 43 29 36 22 29"/>
+    <path d="M56 54C40 63 27 75 17 83"/>
+    <path d="M51 52C38 57 29 64 22 71"/>
+  </g>
+  <path fill="url(#tail-skin)" d="M100 28H91C76 28 66 38 56 44L48 50L56 56C66 62 76 72 91 72H100Z"/>
+  <path fill="#ed795e" d="M100 28H91C76 28 66 38 56 44L48 50C65 43 77 34 91 34H100Z"/>
+  <path fill="#fff0c8" d="M100 66H91C78 66 66 59 56 56C66 62 76 72 91 72H100Z"/>
+  <path d="M76 44Q81 49 76 54M88 50Q93 55 88 60" fill="none" stroke="#e9916c" stroke-width="1.6" stroke-linecap="round" opacity=".65"/>
+</svg>
