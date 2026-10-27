@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="dragon-head-title dragon-head-desc">
+  <title id="dragon-head-title">Blue lightning dragon head</title>
+  <desc id="dragon-head-desc">A right-facing sapphire dragon with sculpted reptilian armor, swept ivory-blue horns, an ice-blue slit eye, nostrils, and a fanged jaw. White lightning crosses its neck. The left connection spans y 28 to 72 with lightning at y 50.</desc>
+  <defs>
+    <linearGradient id="dh-neck" x1="0" y1="28" x2="0" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071a49"/><stop offset=".15" stop-color="#124b9d"/><stop offset=".36" stop-color="#48bcec"/><stop offset=".49" stop-color="#1878c5"/><stop offset=".76" stop-color="#09438d"/><stop offset=".94" stop-color="#071e50"/><stop offset="1" stop-color="#133668"/>
+    </linearGradient>
+    <linearGradient id="dh-face" x1="48" y1="27" x2="70" y2="77" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8de6ff"/><stop offset=".19" stop-color="#369bd9"/><stop offset=".47" stop-color="#1766af"/><stop offset=".76" stop-color="#0a3878"/><stop offset="1" stop-color="#061d46"/>
+    </linearGradient>
+    <linearGradient id="dh-horn" x1="26" y1="10" x2="41" y2="39" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fffdf1"/><stop offset=".3" stop-color="#d8f5ff"/><stop offset=".65" stop-color="#74b7d6"/><stop offset="1" stop-color="#174571"/>
+    </linearGradient>
+    <linearGradient id="dh-cheek" x1="39" y1="43" x2="57" y2="70" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#61cffa"/><stop offset=".45" stop-color="#217ac2"/><stop offset="1" stop-color="#082f68"/>
+    </linearGradient>
+    <radialGradient id="dh-eye"><stop stop-color="#fff"/><stop offset=".45" stop-color="#a9f8ff"/><stop offset="1" stop-color="#20a4de"/></radialGradient>
+    <pattern id="dh-scales" width="20" height="16" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke-linejoin="round">
+        <path d="M-10 0Q0 17 10 0Q20 17 30 0M-20 8Q-10 25 0 8Q10 25 20 8Q30 25 40 8" stroke="#042858" stroke-width=".85" opacity=".65"/>
+        <path d="M-8 1Q0 12 8 1M12 1Q20 12 28 1M2 9Q10 20 18 9" stroke="#96e9ff" stroke-width=".6" opacity=".43"/>
+      </g>
+    </pattern>
+  </defs>
+  <!-- Far horn, neck, then near-side cranial armor. -->
+  <path d="M46 36C41 26 41 17 30 7C45 10 54 19 58 32Z" fill="url(#dh-horn)" stroke="#09254e" stroke-width=".9"/>
+  <path d="M0 28H23C39 25 49 33 53 48L43 72H0Z" fill="url(#dh-neck)"/>
+  <path d="M0 29H23C39 25 49 33 53 48L43 70H0Z" fill="url(#dh-scales)"/>
+  <path d="M0 28H23M0 71.5H37" fill="none" stroke="#061a40"/>
+  <path d="M0 34H20M0 67Q5 65 10 67T30 67" fill="none" stroke="#77d9ff" stroke-width=".65" opacity=".65"/>
+  <path d="M12 31L12 20L27 29M14 67L12 79L31 70" fill="url(#dh-horn)" stroke="#09254e" stroke-width=".8"/>
+  <g fill="none" stroke-linejoin="miter">
+    <path d="M0 50H9L23 40L19 51L36 46L32 57L45 53M20 49L12 43L14 38M32 56L28 64L35 63" stroke="#36c9ff" stroke-width="5.5" opacity=".45"/>
+    <path d="M0 50H9L23 40L19 51L36 46L32 57L45 53" stroke="#e9fcff" stroke-width="2.2"/>
+    <path d="M20 49L12 43L14 38M32 56L28 64L35 63" stroke="#fff" stroke-width="1.05"/>
+  </g>
+  <path d="M29 38C34 26 49 24 59 31L69 42L86 45C93 46 97 50 97 56L95 64L82 67L72 74L52 77L37 69L30 54Z" fill="url(#dh-face)" stroke="#071c42" stroke-width="1.2"/>
+  <!-- Elongated muzzle, lower jaw, and dark recessed mouth. -->
+  <path d="M57 57L74 58L84 56L96 57L94 65L82 67L73 73L56 74L47 68Z" fill="#05152e"/>
+  <path d="M57 67L73 68L83 63L94 62L91 68L81 71L72 76L54 77L43 69Z" fill="url(#dh-face)" stroke="#09254e" stroke-width=".8"/>
+  <path d="M64 61L66 67L69 61M79 59L80 64L83 58M89 58L89 61L92 58" fill="#e6f8fc"/>
+  <path d="M60 69L73 71L83 67" fill="none" stroke="#55a9da" stroke-width=".85"/>
+  <path d="M64 42L74 46L89 47L95 52L94 56L82 57L73 59L62 55L54 50Z" fill="url(#dh-face)"/>
+  <path d="M70 47L84 49L91 51" fill="none" stroke="#a0e8ff" stroke-width="1.15" opacity=".85"/>
+  <path d="M83 50C85 48 89 49 89 52L85 54L82 53Z" fill="#061831"/>
+  <path d="M83 50Q87 48 89 51" fill="none" stroke="#62b9e5" stroke-width=".8"/>
+  <path d="M92 53L94 54M76 53L78 54M79 50L80 51" stroke="#092e64" stroke-width=".9" stroke-linecap="round"/>
+  <!-- Armored cheek, temple plates, and swept near horn. -->
+  <path d="M31 44L45 37L57 44L60 55L52 67L39 71L30 61L35 55L29 51Z" fill="url(#dh-cheek)" stroke="#082750" stroke-width=".9"/>
+  <path d="M33 45L45 40L52 45L46 48L36 50ZM36 52L46 50L52 55L45 60L36 60ZM39 63L46 62L51 66L43 68Z" fill="#1d72b3" stroke="#89d7f4" stroke-opacity=".45" stroke-width=".6"/>
+  <path d="M35 40C32 30 22 24 20 10C28 16 34 19 40 22C47 25 48 33 45 39L40 45Z" fill="url(#dh-horn)" stroke="#09254e" stroke-width="1"/>
+  <path d="M22 13C28 26 40 25 40 38" fill="none" stroke="#fff" stroke-width="1.1" opacity=".75"/>
+  <path d="M29 27L35 25M33 32L40 30M36 37L44 35" fill="none" stroke="#245b85" stroke-width=".7" opacity=".7"/>
+  <path d="M45 32L52 29L58 33L62 40L54 39Z" fill="#3994cd" stroke="#9ee7ff" stroke-width=".7"/>
+  <path d="M46 34L52 33L56 36" fill="none" stroke="#d7f8ff" stroke-width=".85"/>
+  <!-- Deep socket, luminous iris, vertical reptilian pupil, heavy brow. -->
+  <path d="M49 43Q57 37 66 44L64 50L55 52L48 48Z" fill="#04152d"/>
+  <path d="M52 44Q58 40 63 44Q60 50 54 48Z" fill="url(#dh-eye)"/>
+  <path d="M58 42Q55.8 45 58 48Q60 45 58 42Z" fill="#04101e"/>
+  <circle cx="60" cy="43.5" r=".85" fill="#fff"/>
+  <path d="M46 41L55 38L66 42L68 45L57 42L50 45Z" fill="#50b6e5" stroke="#0a3368" stroke-width=".7"/>
+  <path d="M48 40L55 38.5L64 41.5" fill="none" stroke="#c6f3ff" stroke-width="1"/>
+  <path d="M55 52L64 49L69 51M47 57L52 55M41 72L35 76L33 66" fill="none" stroke="#062655" stroke-width="1"/>
+  <path d="M29 56L22 63L34 64M35 68L29 75L41 72" fill="url(#dh-cheek)" stroke="#0b2c58" stroke-width=".7"/>
+  <path d="M31 56L25 61M36 69L32 73" stroke="#8ce1ff" stroke-width=".7"/>
+</svg>

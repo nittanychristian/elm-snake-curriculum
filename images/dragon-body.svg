@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="dragon-body-title dragon-body-desc">
+  <title id="dragon-body-title">Blue lightning dragon body</title>
+  <desc id="dragon-body-desc">Glossy sapphire scales, ice-blue dorsal spines, and branching white lightning. Repeats horizontally; connections span y 28 to 72, with lightning at y 50.</desc>
+  <defs>
+    <linearGradient id="db-skin" x1="0" y1="28" x2="0" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071a49"/><stop offset=".15" stop-color="#124b9d"/><stop offset=".36" stop-color="#48bcec"/><stop offset=".49" stop-color="#1878c5"/><stop offset=".76" stop-color="#09438d"/><stop offset=".94" stop-color="#071e50"/><stop offset="1" stop-color="#133668"/>
+    </linearGradient>
+    <linearGradient id="db-horn" x1="0" y1="13" x2="0" y2="34" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#edfaff"/><stop offset=".4" stop-color="#9bdaf4"/><stop offset="1" stop-color="#155291"/>
+    </linearGradient>
+    <pattern id="db-scales" width="20" height="16" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke-linejoin="round">
+        <path d="M-10 0Q0 17 10 0Q20 17 30 0M-20 8Q-10 25 0 8Q10 25 20 8Q30 25 40 8" stroke="#042858" stroke-width=".85" opacity=".65"/>
+        <path d="M-8 1Q0 12 8 1M12 1Q20 12 28 1M2 9Q10 20 18 9" stroke="#96e9ff" stroke-width=".6" opacity=".43"/>
+      </g>
+    </pattern>
+  </defs>
+  <g fill="url(#db-horn)" stroke="#09254e" stroke-width=".8" stroke-linejoin="round">
+    <path d="M9 30Q17 23 16 14Q25 21 30 30Z"/>
+    <path d="M42 30Q50 23 49 14Q58 21 63 30Z"/>
+    <path d="M75 30Q83 23 82 14Q91 21 96 30Z"/>
+  </g>
+  <path fill="url(#db-skin)" d="M0 28H100V72H0Z"/>
+  <path fill="url(#db-scales)" d="M0 29H100V70H0Z"/>
+  <path d="M0 28H100M0 71.5H100" fill="none" stroke="#061a40"/>
+  <path d="M0 34H100" stroke="#77d9ff" stroke-width=".65" opacity=".65"/>
+  <path d="M0 67Q5 65 10 67T30 67T50 67T70 67T90 67T110 67" fill="none" stroke="#55a6d9" stroke-width="1" opacity=".55"/>
+  <!-- Endpoints and horizontal tangents match across repeated tiles. -->
+  <g fill="none" stroke-linejoin="miter">
+    <path d="M0 50H9L23 40L19 51L40 45L34 56L55 49L68 52L80 43L76 54L91 50H100M36 47L42 36L53 32M66 52L62 62L72 59L76 65M20 48L10 42L13 37" stroke="#36c9ff" stroke-width="5.5" opacity=".45"/>
+    <path d="M0 50H9L23 40L19 51L40 45L34 56L55 49L68 52L80 43L76 54L91 50H100" stroke="#e9fcff" stroke-width="2.2"/>
+    <path d="M36 47L42 36L53 32M66 52L62 62L72 59L76 65M20 48L10 42L13 37" stroke="#fff" stroke-width="1.05"/>
+  </g>
+</svg>

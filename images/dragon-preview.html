@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blue lightning dragon — SVG assets</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #080f20; color: #e5f5ff; font: 16px/1.6 system-ui, sans-serif; }
+  main { max-width: 1000px; margin: auto; padding: 48px 24px; }
+  h1 { margin: 0; font-size: clamp(28px, 5vw, 46px); letter-spacing: -.04em; }
+  h2 { font-size: 18px; margin: 36px 0 12px; }
+  p { color: #a9bfd5; max-width: 720px; }
+  a { color: #91e5ff; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  figure { margin: 0; padding: 16px; border: 1px solid #253855; border-radius: 12px; background: #101e35; }
+  figure img { display: block; width: 100%; }
+  figcaption { text-align: center; }
+  .strip { display: flex; width: 100%; background: #101e35; border-radius: 12px; overflow: hidden; }
+  .strip img { display: block; width: 20%; }
+  .small { display: flex; margin: 12px 0; }
+  .small img { display: block; width: var(--tile); height: var(--tile); }
+  .orientations { display: flex; gap: 16px; }
+  .orientations img { width: 80px; height: 80px; background: #101e35; border-radius: 8px; }
+  code { color: #d6efff; }
+  @media (max-width: 500px) { main { padding: 28px 12px; } figure { padding: 6px; } figcaption { font-size: 12px; } }
+</style>
+<main>
+  <h1>Blue lightning dragon</h1>
+  <p>Three transparent SVG tiles. Sapphire armor, icy horns, and branching white lightning.</p>
+  <div class="cards">
+    <figure><img src="dragon-head.svg" alt="Detailed right-facing blue dragon head with swept horns and an icy eye"><figcaption><a href="dragon-head.svg">Head SVG</a></figcaption></figure>
+    <figure><img src="dragon-body.svg" alt="Repeating scaled body with dorsal spines and white lightning"><figcaption><a href="dragon-body.svg">Body SVG</a></figcaption></figure>
+    <figure><img src="dragon-tail.svg" alt="Tapering armored tail with an icy spear tip"><figcaption><a href="dragon-tail.svg">Tail SVG</a></figcaption></figure>
+  </div>
+  <h2>Connected tiles</h2>
+  <div class="strip" aria-label="Tail, three body tiles, and head joined together">
+    <img src="dragon-tail.svg" alt="Tail"><img src="dragon-body.svg" alt="Body"><img src="dragon-body.svg" alt="Body"><img src="dragon-body.svg" alt="Body"><img src="dragon-head.svg" alt="Head">
+  </div>
+  <h2>Game sizes · 24, 32, and 48 pixels per tile</h2>
+  <div class="small" style="--tile:24px"><img src="dragon-tail.svg" alt="24px tail"><img src="dragon-body.svg" alt="24px body"><img src="dragon-body.svg" alt="24px body"><img src="dragon-head.svg" alt="24px head"></div>
+  <div class="small" style="--tile:32px"><img src="dragon-tail.svg" alt="32px tail"><img src="dragon-body.svg" alt="32px body"><img src="dragon-body.svg" alt="32px body"><img src="dragon-head.svg" alt="32px head"></div>
+  <div class="small" style="--tile:48px"><img src="dragon-tail.svg" alt="48px tail"><img src="dragon-body.svg" alt="48px body"><img src="dragon-body.svg" alt="48px body"><img src="dragon-head.svg" alt="48px head"></div>
+  <h2>Head orientations</h2>
+  <div class="orientations">
+    <img src="dragon-head.svg" alt="Facing right"><img src="dragon-head.svg" alt="Facing left" style="transform:scaleX(-1)"><img src="dragon-head.svg" alt="Facing up" style="transform:rotate(-90deg)"><img src="dragon-head.svg" alt="Facing down" style="transform:rotate(90deg)">
+  </div>
+  <h2>Body bends</h2>
+  <div class="orientations">
+    <a href="dragon-bend.svg"><img src="dragon-bend.svg" alt="Dragon bend with normal shading"></a>
+    <a href="dragon-bend-reversed.svg"><img src="dragon-bend-reversed.svg" alt="Dragon bend with reversed shading"></a>
+  </div>
+  <p>Normal and reversed bend shading blend to match each direction of travel. Both share the same white lightning path.</p>
+  <h2>Using the assets</h2>
+  <p>Each file uses <code>viewBox="0 0 100 100"</code> and faces right. Place the tail to the left of the body and the head to its right, with tile edges touching. Skin connects at y=28–72; lightning meets at y=50. Rotate around the tile center for up/down and mirror horizontally for left.</p>
+  <p>The active <code>src/Game.elm</code> game embeds all five dragon SVG files as Base64 data URLs, including both bend variants. It is self-contained for Ellie and does not fetch image files. After editing an SVG, update its corresponding embedded image constant in Elm.</p>
+  <p><a href="dragon-preview.svg">Open the standalone SVG contact sheet</a></p>
+</main>
+</html>

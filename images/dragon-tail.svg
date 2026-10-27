@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="dragon-tail-title dragon-tail-desc">
+  <title id="dragon-tail-title">Blue lightning dragon tail</title>
+  <desc id="dragon-tail-desc">An armored sapphire tail tapering left to an icy spear point, with white lightning. Its right edge connects to the body from y 28 to 72 and lightning at y 50.</desc>
+  <defs>
+    <linearGradient id="dt-skin" x1="0" y1="28" x2="0" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071a49"/><stop offset=".15" stop-color="#124b9d"/><stop offset=".36" stop-color="#48bcec"/><stop offset=".49" stop-color="#1878c5"/><stop offset=".76" stop-color="#09438d"/><stop offset=".94" stop-color="#071e50"/><stop offset="1" stop-color="#133668"/>
+    </linearGradient>
+    <linearGradient id="dt-horn" x1="0" y1="17" x2="0" y2="53" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f4fdff"/><stop offset=".45" stop-color="#91d7f2"/><stop offset="1" stop-color="#155291"/>
+    </linearGradient>
+    <pattern id="dt-scales" width="20" height="16" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke-linejoin="round">
+        <path d="M-10 0Q0 17 10 0Q20 17 30 0M-20 8Q-10 25 0 8Q10 25 20 8Q30 25 40 8" stroke="#042858" stroke-width=".85" opacity=".65"/>
+        <path d="M-8 1Q0 12 8 1M12 1Q20 12 28 1M2 9Q10 20 18 9" stroke="#96e9ff" stroke-width=".6" opacity=".43"/>
+      </g>
+    </pattern>
+    <clipPath id="dt-clip"><path d="M100 28H91C68 28 61 39 46 44C29 50 15 51 4 48C16 64 39 65 57 65C75 65 79 72 92 72H100Z"/></clipPath>
+  </defs>
+  <g fill="url(#dt-horn)" stroke="#09254e" stroke-width=".8" stroke-linejoin="round">
+    <path d="M75 32Q82 25 80 17Q92 21 96 29Z"/>
+    <path d="M51 43Q57 34 53 29Q67 30 73 36Z"/>
+    <path d="M29 51L34 41L47 47Z"/>
+  </g>
+  <g clip-path="url(#dt-clip)">
+    <path fill="url(#dt-skin)" d="M0 0H100V100H0Z"/>
+    <path fill="url(#dt-scales)" d="M0 0H100V100H0Z"/>
+    <path d="M4 48C15 51 29 50 46 44C61 39 68 28 91 28H100M4 48C16 64 39 65 57 65C75 65 79 72 92 72H100" fill="none" stroke="#061a40" stroke-width="1.5"/>
+    <path d="M31 53C59 49 68 34 91 34H100M57 61C76 61 80 67 92 67H100" fill="none" stroke="#77d9ff" stroke-width=".65" opacity=".65"/>
+    <g fill="none" stroke-linejoin="miter">
+      <path d="M100 50H91L79 44L83 54L63 48L67 57L46 53L32 56L21 53M64 49L61 41L53 41M79 53L75 62L65 60" stroke="#36c9ff" stroke-width="5.5" opacity=".45"/>
+      <path d="M100 50H91L79 44L83 54L63 48L67 57L46 53L32 56L21 53" stroke="#e9fcff" stroke-width="2.2"/>
+      <path d="M64 49L61 41L53 41M79 53L75 62L65 60" stroke="#fff" stroke-width="1.05"/>
+    </g>
+  </g>
+  <path d="M2 47L18 48L27 42L23 52L32 58L17 57Z" fill="url(#dt-horn)" stroke="#0c365e" stroke-width=".8" stroke-linejoin="round"/>
+  <path d="M3 48L21 52L18 55" fill="none" stroke="#e9fcff" stroke-width=".8"/>
+</svg>

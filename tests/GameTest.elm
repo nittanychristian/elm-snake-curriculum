@@ -2,7 +2,7 @@ module GameTest exposing (suite)
 
 import Expect
 import Fuzz
-import Game exposing (Direction(..), EaglePart(..), FoodType(..), GameStatus(..), Model, Msg(..), Position)
+import Game exposing (Direction(..), DragonPart(..), FoodType(..), GameStatus(..), Model, Msg(..), Position)
 import Random
 import Set
 import Test exposing (Test, describe, fuzz2, test)
@@ -11,7 +11,7 @@ import Time
 
 suite : Test
 suite =
-    describe "Eagle Strike"
+    describe "Dragon Strike"
         [ movementTests
         , segmentTests
         , cornerTests
@@ -86,13 +86,13 @@ movementTests =
 segmentTests : Test
 segmentTests =
     describe "Head, body, and tail"
-        [ test "the initial eagle has one head, one body, and one tail" <|
+        [ test "the initial dragon has one head, one body, and one tail" <|
             \_ ->
                 summary Game.initialModel
                     |> Expect.equal
-                        [ ( EagleHead, Right, { x = 10, y = 10 } )
-                        , ( EagleBody, Right, { x = 9, y = 10 } )
-                        , ( EagleTail, Right, { x = 8, y = 10 } )
+                        [ ( DragonHead, Right, { x = 10, y = 10 } )
+                        , ( DragonBody, Right, { x = 9, y = 10 } )
+                        , ( DragonTail, Right, { x = 8, y = 10 } )
                         ]
         , test "each segment follows its own neighbors at successive bends" <|
             \_ ->
@@ -107,10 +107,10 @@ segmentTests =
                         , direction = Up
                     }
                     |> Expect.equal
-                        [ ( EagleHead, Up, { x = 5, y = 4 } )
-                        , ( EagleBend Left, Up, { x = 5, y = 5 } )
-                        , ( EagleBend Down, Right, { x = 4, y = 5 } )
-                        , ( EagleTail, Up, { x = 4, y = 6 } )
+                        [ ( DragonHead, Up, { x = 5, y = 4 } )
+                        , ( DragonBend Left, Up, { x = 5, y = 5 } )
+                        , ( DragonBend Down, Right, { x = 4, y = 5 } )
+                        , ( DragonTail, Up, { x = 4, y = 6 } )
                         ]
         , test "an empty body renders just the head" <|
             \_ ->
@@ -119,7 +119,7 @@ segmentTests =
                         Game.initialModel
                 in
                 summary { initial | body = [] }
-                    |> Expect.equal [ ( EagleHead, Right, initial.head ) ]
+                    |> Expect.equal [ ( DragonHead, Right, initial.head ) ]
         , test "a single body position renders as the tail" <|
             \_ ->
                 let
@@ -128,8 +128,8 @@ segmentTests =
                 in
                 summary { initial | body = [ { x = 9, y = 10 } ] }
                     |> Expect.equal
-                        [ ( EagleHead, Right, initial.head )
-                        , ( EagleTail, Right, { x = 9, y = 10 } )
+                        [ ( DragonHead, Right, initial.head )
+                        , ( DragonTail, Right, { x = 9, y = 10 } )
                         ]
         , test "opposite neighbors use the straight body in every direction" <|
             \_ ->
@@ -140,7 +140,7 @@ segmentTests =
                             |> Maybe.map .part
                     )
                     [ ( Left, Right ), ( Right, Left ), ( Up, Down ), ( Down, Up ) ]
-                    |> Expect.equal (List.repeat 4 (Just EagleBody))
+                    |> Expect.equal (List.repeat 4 (Just DragonBody))
         ]
 
 
@@ -164,7 +164,7 @@ cornerTests =
                                 )
                                 positions
                                 |> Expect.equal
-                                    (List.map (\pos -> Just ( EagleBend behind, ahead, pos )) positions)
+                                    (List.map (\pos -> Just ( DragonBend behind, ahead, pos )) positions)
                     ]
             )
             [ ( ( Up, Left ), ( 0, ( True, True ) ) )
@@ -189,7 +189,7 @@ gameplayTests =
                         Game.tickGame Game.initialModel |> summary
                 in
                 ( List.length segments, List.reverse segments |> List.head )
-                    |> Expect.equal ( 3, Just ( EagleTail, Right, { x = 9, y = 10 } ) )
+                    |> Expect.equal ( 3, Just ( DragonTail, Right, { x = 9, y = 10 } ) )
         , test "eating grows the body, keeps the tail position, and awards a point" <|
             \_ ->
                 let
@@ -199,9 +199,9 @@ gameplayTests =
                     afterEating =
                         Game.tickGame { initial | food = { x = 11, y = 10 } }
                 in
-                ( List.map .part (Game.eagleSegments afterEating), List.reverse afterEating.body |> List.head, afterEating.score )
-                    |> Expect.equal ( [ EagleHead, EagleBody, EagleBody, EagleTail ], Just { x = 8, y = 10 }, 1 )
-        , test "restart restores the initial eagle and preserves the best score" <|
+                ( List.map .part (Game.dragonSegments afterEating), List.reverse afterEating.body |> List.head, afterEating.score )
+                    |> Expect.equal ( [ DragonHead, DragonBody, DragonBody, DragonTail ], Just { x = 8, y = 10 }, 1 )
+        , test "restart restores the initial dragon and preserves the best score" <|
             \_ ->
                 let
                     initial =
@@ -228,7 +228,7 @@ gameplayTests =
                         { initial | status = GameOver }
                 in
                 Game.tickGame stopped |> Expect.equal stopped
-        , test "the eagle cannot reverse directly into its neck" <|
+        , test "the dragon cannot reverse directly into its neck" <|
             \_ ->
                 Game.update (KeyPressed Left) Game.initialModel
                     |> Tuple.first
@@ -396,9 +396,9 @@ foodTests =
         ]
 
 
-summary : Model -> List ( Game.EaglePart, Direction, Position )
+summary : Model -> List ( Game.DragonPart, Direction, Position )
 summary model =
-    List.map (\segment -> ( segment.part, segment.direction, segment.position )) (Game.eagleSegments model)
+    List.map (\segment -> ( segment.part, segment.direction, segment.position )) (Game.dragonSegments model)
 
 
 directions : List Direction
