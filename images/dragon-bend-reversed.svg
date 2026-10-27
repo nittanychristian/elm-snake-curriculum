@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-labelledby="dbr-title dbr-desc">
+  <title id="dbr-title">Blue lightning dragon bend with reversed shading</title>
+  <desc id="dbr-desc">A scaled blue quarter-circle joining the left and top edges from 28 to 72. White lightning meets both edges at 50. Reversed radial shading supports mirrored and blended turns.</desc>
+  <defs>
+    <radialGradient id="dbr-skin" cx="0" cy="0" r="72" gradientUnits="userSpaceOnUse">
+      <stop offset="0.38888889" stop-color="#133668"/>
+      <stop offset="0.42555556" stop-color="#071e50"/>
+      <stop offset="0.53555556" stop-color="#09438d"/>
+      <stop offset="0.70055556" stop-color="#1878c5"/>
+      <stop offset="0.78000000" stop-color="#48bcec"/>
+      <stop offset="0.90833333" stop-color="#124b9d"/>
+      <stop offset="1.00000000" stop-color="#071a49"/>
+    </radialGradient>
+    <pattern id="dbr-scales" width="20" height="16" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke-linejoin="round">
+        <path d="M-10 0Q0 17 10 0Q20 17 30 0M-20 8Q-10 25 0 8Q10 25 20 8Q30 25 40 8" stroke="#042858" stroke-width=".85" opacity=".65"/>
+        <path d="M-8 1Q0 12 8 1M12 1Q20 12 28 1M2 9Q10 20 18 9" stroke="#96e9ff" stroke-width=".6" opacity=".43"/>
+      </g>
+    </pattern>
+    <clipPath id="dbr-clip"><path d="M0 28A28 28 0 0 0 28 0H72A72 72 0 0 1 0 72Z"/></clipPath>
+  </defs>
+  <g clip-path="url(#dbr-clip)">
+    <path fill="url(#dbr-skin)" d="M0 28A28 28 0 0 0 28 0H72A72 72 0 0 1 0 72Z"/>
+    <path fill="url(#dbr-scales)" d="M0 28A28 28 0 0 0 28 0H72A72 72 0 0 1 0 72Z"/>
+    <path d="M0 28A28 28 0 0 0 28 0M0 72A72 72 0 0 0 72 0" fill="none" stroke="#061a40" stroke-width="1"/>
+    <g fill="none" stroke-linejoin="miter">
+      <path d="M0 50H7L17 43L14 51L31 42L27 48L42 31L40 23L49 14L50 7V0 M17 46L12 37L20 38M31 41L36 49L43 44M43 29L54 25L51 18" stroke="#36c9ff" stroke-width="5.5" opacity=".45"/>
+      <path d="M0 50H7L17 43L14 51L31 42L27 48L42 31L40 23L49 14L50 7V0" stroke="#e9fcff" stroke-width="2.2"/>
+      <path d="M17 46L12 37L20 38M31 41L36 49L43 44M43 29L54 25L51 18" stroke="#fff" stroke-width="1.05"/>
+    </g>
+  </g>
+</svg>
